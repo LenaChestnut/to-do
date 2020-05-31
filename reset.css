@@ -19,11 +19,17 @@ footer, header, main {
 
 html {
 	min-width: 320px;
+	font-family: 'Montserrat', sans-serif;
 }
 
 body {
 	line-height: 1;
 }
+
+h1 {
+	font-family: 'Comfortaa', cursive;
+}
+
 ul {
 	list-style: none;
 }
