@@ -55,12 +55,20 @@ export const projectCardModule = (() => {
         projectCard.appendChild(projectName);
 
         const editButton = document.createElement('button');
-        editButton.classList.add("edit-btn")
-        editButton.textContent = "Edit";
+        editButton.classList.add("edit-btn");
+        const editIcon = document.createElement('img');
+        editIcon.setAttribute('src', '../dist/assets/edit.svg');
+        editIcon.setAttribute('alt', 'Edit');
+        editButton.appendChild(editIcon);
+        // editButton.textContent = "Edit";
 
         const removeButton = document.createElement('button');
-        removeButton.classList.add("remove-btn")
-        removeButton.textContent = "Remove";
+        removeButton.classList.add("remove-btn");
+        const removeIcon = document.createElement('img');
+        removeIcon.setAttribute('src', '../dist/assets/trash.svg');
+        removeIcon.setAttribute('alt', 'remove');
+        removeButton.appendChild(removeIcon);
+        // removeButton.textContent = "Remove";
 
         projectCard.appendChild(editButton);
         projectCard.appendChild(removeButton);
