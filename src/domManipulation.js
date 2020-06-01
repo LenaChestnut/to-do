@@ -21,7 +21,6 @@ export function toggleMenuPanel() {
 
 function isMenuOpen() {
     if (elements.container.contains(elements.menuPanel)) {
-
         return true;
     }
 }
@@ -33,6 +32,25 @@ function loadMenuPanel() {
 }
 
 function hideMenuPanel() {
+    // let start = Date.now();
+    // let timer = setInterval(function() {
+      
+    //   let timePassed = Date.now() - start;
+    
+    //   if (timePassed >= 1525) {
+    //     clearInterval(timer);
+    //     return;
+    //   }
+    //   draw(timePassed);
+    // }, 20);
+    
+    // // as timePassed goes from 0 to 2000
+    // // left gets values from 0px to 400px
+    // function draw(timePassed) {
+    //   elements.menuPanel.style.left = -(timePassed / 25) + 'px';
+    // }
+
+    // timer();
     clearProjectList();
     elements.menuPanel.remove();
 }
@@ -60,7 +78,6 @@ export const projectCardModule = (() => {
         editIcon.setAttribute('src', '../dist/assets/edit.svg');
         editIcon.setAttribute('alt', 'Edit');
         editButton.appendChild(editIcon);
-        // editButton.textContent = "Edit";
 
         const removeButton = document.createElement('button');
         removeButton.classList.add("remove-btn");
@@ -68,7 +85,6 @@ export const projectCardModule = (() => {
         removeIcon.setAttribute('src', '../dist/assets/trash.svg');
         removeIcon.setAttribute('alt', 'remove');
         removeButton.appendChild(removeIcon);
-        // removeButton.textContent = "Remove";
 
         projectCard.appendChild(editButton);
         projectCard.appendChild(removeButton);
