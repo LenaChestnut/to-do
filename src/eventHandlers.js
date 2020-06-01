@@ -1,4 +1,4 @@
-import { elements, toggleMenuPanel, projectCardModule } from './domManipulation.js'
+import { elements, toggleMenuPanel, projectCardModule, createProjectForm } from './domManipulation.js'
 import PubSub from 'pubsub-js'
 import { getProjects } from './storage.js'
 
@@ -15,11 +15,20 @@ const eventHandler = (() => {
             });
         }
     });
+
+    elements.newProjectBtn.addEventListener('click', createProjectForm);
+
+    PubSub.subscribe('Create project form', function() {
+        const form = document.querySelector('#new-project');
+        form.addEventListener('click', function(e) {
+            console.log(e.target);
+        });
+    });
 })();
 
 function checkConnect(e) {
     let targetClass = e.target.classList;
-    alert(`${targetClass}`);
+    console.log(`${targetClass}`);
 }
 
 export default eventHandler

@@ -6,10 +6,12 @@ export const elements = {
     menuBtn: document.querySelector('.menu-btn'),
     menuPanel: document.createElement('div'),
     projectList: document.createElement('ul'),
+    newProjectBtn: document.createElement('button'),
 };
 
 elements.menuPanel.classList.add('menu-panel');
 elements.projectList.classList.add('projects-container');
+elements.newProjectBtn.classList.add('new-project-btn');
 
 export function toggleMenuPanel() {
     if (isMenuOpen()) {
@@ -29,6 +31,8 @@ function loadMenuPanel() {
     elements.container.appendChild(elements.menuPanel);
     elements.menuPanel.appendChild(elements.projectList);
     appendProjectCards();
+    elements.newProjectBtn.textContent = '+ New project';
+    elements.menuPanel.appendChild(elements.newProjectBtn);
 }
 
 function hideMenuPanel() {
@@ -39,8 +43,7 @@ function hideMenuPanel() {
         duration: 300,
     });
     setTimeout(() => {
-        clearProjectList();
-        elements.menuPanel.remove();
+        removeNode(elements.menuPanel);
     }, 300);
 }
 
@@ -92,8 +95,29 @@ export const projectCardModule = (() => {
     }
 })();
 
-function clearProjectList() {
-    while (elements.projectList.firstChild) {
-        elements.projectList.removeChild(elements.projectList.firstChild);
+const form = document.createElement('form');
+form.setAttribute('id', 'new-project');
+
+export function createProjectForm() {
+    removeNode(elements.newProjectBtn);
+    const projectNameField = document.createElement('input');
+    projectNameField.setAttribute('type', 'text');
+    form.appendChild(projectNameField);
+    const cancelBtn = document.createElement('button');
+    cancelBtn.setAttribute('type', 'reset');
+    cancelBtn.textContent = 'X';
+    const saveBtn = document.createElement('button');
+    saveBtn.setAttribute('type', 'submit');
+    saveBtn.textContent = "+";
+    form.appendChild(saveBtn);
+    form.appendChild(cancelBtn);
+    elements.menuPanel.appendChild(form);
+    PubSub.publish('Create project form');
+};
+
+function removeNode(node) {
+    while (node.firstChild) {
+        removeNode(node.firstChild);
     }
+    node.remove();
 }

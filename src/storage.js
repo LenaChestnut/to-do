@@ -1,5 +1,13 @@
 const projects = ["General", "Hobby", "Work"];
 
 export function getProjects() {
-    return projects;
+    if (localStorage.length) {
+        return true;
+    } else {
+        return projects;
+    }
+}
+
+function updateStorage(projectName) {
+    localStorage.setItem(projectName, JSON.stringify(myLibrary));
 }

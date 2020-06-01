@@ -34,7 +34,7 @@ h1 {
 
 button {
     color: var(--text-color);
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     vertical-align: middle;
 }
 
@@ -75,18 +75,8 @@ img {
 
 }
 
-.slideout {
-    animation: slideout 0.3s;
-}
-
-@keyframes slideout {
-    from {
-        left: 0;
-    }
-
-    to {
-        left: -305px;
-    }
+.new-project-btn {
+    margin-top: 24px;
 }
 
 .project-card {
