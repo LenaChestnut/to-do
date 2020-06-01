@@ -32,27 +32,16 @@ function loadMenuPanel() {
 }
 
 function hideMenuPanel() {
-    // let start = Date.now();
-    // let timer = setInterval(function() {
-      
-    //   let timePassed = Date.now() - start;
-    
-    //   if (timePassed >= 1525) {
-    //     clearInterval(timer);
-    //     return;
-    //   }
-    //   draw(timePassed);
-    // }, 20);
-    
-    // // as timePassed goes from 0 to 2000
-    // // left gets values from 0px to 400px
-    // function draw(timePassed) {
-    //   elements.menuPanel.style.left = -(timePassed / 25) + 'px';
-    // }
-
-    // timer();
-    clearProjectList();
-    elements.menuPanel.remove();
+    elements.menuPanel.animate([
+        { transform: 'translateX(0px)' },
+        { transform: 'translateX(-305px)' },
+    ], {
+        duration: 300,
+    });
+    setTimeout(() => {
+        clearProjectList();
+        elements.menuPanel.remove();
+    }, 300);
 }
 
 function appendProjectCards() {
