@@ -52,10 +52,41 @@ img {
     height: calc(100vh - 45px);
     top: 45px;
     background: var(--nav-color);
-    padding: 1.5rem 2rem;
+    padding: 0 2rem 1.5rem;
     -webkit-box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     -moz-box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
+    animation: slidein 0.3s;
+    overflow-y: auto;
+}
+
+.slidein {
+    animation: slidein 0.3s;
+}
+
+@keyframes slidein {
+    from {
+        left: -305px;
+    }
+
+    to {
+        left: 0;
+    }
+
+}
+
+.slideout {
+    animation: slideout 0.3s;
+}
+
+@keyframes slideout {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: -305px;
+    }
 }
 
 .project-card {
