@@ -40,6 +40,7 @@ button {
 
 img {
     display: block;
+    pointer-events: none;
 }
 
 .nav-link {
@@ -52,12 +53,16 @@ img {
     height: calc(100vh - 45px);
     top: 45px;
     background: var(--nav-color);
-    padding: 0 2rem 1.5rem;
+    padding: 0.5rem 2rem 1.5rem;
     -webkit-box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     -moz-box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     animation: slidein 0.3s;
     overflow-y: auto;
+}
+
+.menu-panel ul {
+    margin-bottom: 0.4rem;
 }
 
 .slidein {
@@ -75,23 +80,41 @@ img {
 
 }
 
-.new-project-btn {
-    margin-top: 24px;
-}
-
 .project-card {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     width: 240px;
     height: 40px;
     color: var(--text-color);
 }
 
+li {
+    cursor: pointer;
+}
+
 .project-card p {
     width: 190px;
     font-size: 0.9rem;
+    margin-top: 2px;
 }
 
-.project-card button {
+.project-card button, form button {
     margin-left: 0.5rem;
+}
+
+.new-project-btn {
+    padding: 0.4rem 0;
+}
+
+input[type=text] {
+    border-radius: 5px;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    width: 190px;
+}
+
+button:disabled {
+    background-color: red;
 }
