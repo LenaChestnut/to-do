@@ -1,5 +1,7 @@
-import { elements, toggleMenuPanel, projectCardModule, createProjectForm } from './domManipulation.js'
+import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, showElement } from './domManipulation.js'
+import { createProjectForm, getFormInput, validateInput, getSaveButton } from './formController.js';
 import PubSub from 'pubsub-js'
+import ProjectFactory from './projectController.js';
 import { getProjects } from './storage.js'
 
 const eventHandler = (() => {
@@ -11,24 +13,50 @@ const eventHandler = (() => {
 
         for (let i = 0; i < projectCards.length; i++) {
             projectCards[i].addEventListener('click', function(e) {
-                checkConnect(event);
+                alert('project clicked');
             });
         }
     });
 
-    elements.newProjectBtn.addEventListener('click', createProjectForm);
+    elements.newProjectBtn.addEventListener('click', () => {
+        hideElement(elements.newProjectBtn);
+        createProjectForm(elements.menuPanel, 'project-form');
+    });
 
-    PubSub.subscribe('Create project form', function() {
-        const form = document.querySelector('#new-project');
+    PubSub.subscribe('Create form', function() {
+        const form = document.querySelector('form');
         form.addEventListener('click', function(e) {
-            console.log(e.target);
+            let target = getEventTarget(e);
+            if (target.tagName.toLowerCase() === 'button') {
+                let type = getTargetClass(target);
+                if (type === 'save') {
+                    e.preventDefault();
+                    alert(getFormInput(form.name));
+                } else if (type === 'cancel') {
+                    removeNode(form);
+                    showElement(elements.newProjectBtn);
+                }
+            }
+        });
+
+        form.addEventListener('input', function() {
+            const saveButton = getSaveButton(form);
+            if (validateInput(form)) {
+                saveButton.disabled = false;
+            } else {
+                saveButton.disabled = true;
+            }
         });
     });
 })();
 
-function checkConnect(e) {
-    let targetClass = e.target.classList;
-    console.log(`${targetClass}`);
+function getEventTarget(e) {
+    e = e || window.event;
+    return e.target || e.srcElement;
+}
+
+function getTargetClass(eventTarget) {
+    return eventTarget.getAttribute('class');
 }
 
 export default eventHandler

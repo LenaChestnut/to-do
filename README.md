@@ -22,7 +22,7 @@ After that, `npm run watch` to track the changes in files.
 
 ## JavaScript
 ### Removing nodes
-When nodes are removed from the page, JS doesn't get rid of their children unless specifically told. In order to be able to delete complex nodes with lots of children and children's children, use this recursive function:
+In order to be able to delete complex nodes with lots of children and children's children, use this recursive function:
 ```javascript
 function removeNode(node) {
     while (node.firstChild) {
@@ -31,6 +31,9 @@ function removeNode(node) {
     node.remove();
 }
 ```
+After discussion on Discord, I've been assured that using innerHTML set to an empty string is fine in this case and not a cause for security concerns.
+
+
 ### Slide-out menu animation
 I wanted to make the menu slide out when hidden. However, CSS rule for slide-in animation didn't allow for using another CSS rule to achieve this effect. Instead, I used `animate()` in JS. The first parameter lists keyframes, the second sets duration of the animation. I used `setTimeout()` so that the menu wouldn't disappear before the animation was completed.
 ```javascript

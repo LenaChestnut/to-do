@@ -13,6 +13,8 @@ elements.menuPanel.classList.add('menu-panel');
 elements.projectList.classList.add('projects-container');
 elements.newProjectBtn.classList.add('new-project-btn');
 
+// MENU PANEL
+
 export function toggleMenuPanel() {
     if (isMenuOpen()) {
         hideMenuPanel();
@@ -32,6 +34,7 @@ function loadMenuPanel() {
     elements.menuPanel.appendChild(elements.projectList);
     appendProjectCards();
     elements.newProjectBtn.textContent = '+ New project';
+    elements.newProjectBtn.style.display = 'block';
     elements.menuPanel.appendChild(elements.newProjectBtn);
 }
 
@@ -95,29 +98,17 @@ export const projectCardModule = (() => {
     }
 })();
 
-const form = document.createElement('form');
-form.setAttribute('id', 'new-project');
-
-export function createProjectForm() {
-    removeNode(elements.newProjectBtn);
-    const projectNameField = document.createElement('input');
-    projectNameField.setAttribute('type', 'text');
-    form.appendChild(projectNameField);
-    const cancelBtn = document.createElement('button');
-    cancelBtn.setAttribute('type', 'reset');
-    cancelBtn.textContent = 'X';
-    const saveBtn = document.createElement('button');
-    saveBtn.setAttribute('type', 'submit');
-    saveBtn.textContent = "+";
-    form.appendChild(saveBtn);
-    form.appendChild(cancelBtn);
-    elements.menuPanel.appendChild(form);
-    PubSub.publish('Create project form');
-};
-
-function removeNode(node) {
+export function removeNode(node) {
     while (node.firstChild) {
         removeNode(node.firstChild);
     }
     node.remove();
+}
+
+export function hideElement(element) {
+    element.style.display = 'none';
+}
+
+export function showElement(element) {
+    element.style.display = 'block';
 }
