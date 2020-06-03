@@ -50,6 +50,8 @@ function hideMenuPanel() {
     }, 300);
 }
 
+// PROJECT CARDS
+
 function appendProjectCards() {
     const projects = getProjects();
     for (let i = 0; i < projects.length; i++) {
@@ -87,16 +89,19 @@ export const projectCardModule = (() => {
         elements.projectList.appendChild(projectCard);
     }
 
-    function getProjectCard() {
+    // get cards for event listeners assignment
+    function getProjectCards() {
         const projectCards = document.querySelectorAll(".project-card");
         return projectCards;
     }
 
     return {
         buildCard,
-        getProjectCard,
+        getProjectCards,
     }
 })();
+
+// GENERAL
 
 export function removeNode(node) {
     while (node.firstChild) {

@@ -1,5 +1,7 @@
 import { elements } from "./domManipulation";
 
+// BASIC FORM ELEMENTS
+
 function createFormContainer(name) {
     const form = document.createElement('form');
     form.setAttribute('name', `${name}`);
@@ -46,9 +48,10 @@ export function createProjectForm(container, name) {
     PubSub.publish('Create form');
 };
 
+// FORM PROCESSING
+
 export function getFormInput(formName) {
     const form = document.forms[`${formName}`];
-
     if (formName === 'project-form') {
         return form['project-name'].value;
     }
@@ -63,6 +66,15 @@ export function validateInput(form) {
 function getFormElements(form) {
     const formElements = Array.from(form.elements);
     return formElements;
+}
+
+export function changeSaveButtonState(form) {
+    const saveButton = getSaveButton(form);
+    if (validateInput(form)) {
+        saveButton.disabled = false;
+    } else {
+        saveButton.disabled = true;
+    }
 }
 
 export function getSaveButton(form) {

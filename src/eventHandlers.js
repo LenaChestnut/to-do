@@ -1,5 +1,5 @@
 import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, showElement } from './domManipulation.js'
-import { createProjectForm, getFormInput, validateInput, getSaveButton } from './formController.js';
+import { createProjectForm, getFormInput, validateInput, getSaveButton, changeSaveButtonState } from './formController.js';
 import PubSub from 'pubsub-js'
 import ProjectFactory from './projectController.js';
 import { getProjects } from './storage.js'
@@ -9,7 +9,7 @@ const eventHandler = (() => {
 
     //When project cards are created, assign event listenerss
     PubSub.subscribe("View projects", function() {
-        const projectCards = projectCardModule.getProjectCard();
+        const projectCards = projectCardModule.getProjectCards();
 
         for (let i = 0; i < projectCards.length; i++) {
             projectCards[i].addEventListener('click', function(e) {
@@ -26,26 +26,23 @@ const eventHandler = (() => {
     PubSub.subscribe('Create form', function() {
         const form = document.querySelector('form');
         form.addEventListener('click', function(e) {
+            // process the event based on the type of clicked element
             let target = getEventTarget(e);
             if (target.tagName.toLowerCase() === 'button') {
-                let type = getTargetClass(target);
-                if (type === 'save') {
+                let targetClass = getTargetClass(target);
+                if (targetClass === 'save') {
                     e.preventDefault();
                     alert(getFormInput(form.name));
-                } else if (type === 'cancel') {
+                } else if (targetClass === 'cancel') {
                     removeNode(form);
                     showElement(elements.newProjectBtn);
                 }
             }
         });
 
+        // disable or enable save button based on filled in required inputs
         form.addEventListener('input', function() {
-            const saveButton = getSaveButton(form);
-            if (validateInput(form)) {
-                saveButton.disabled = false;
-            } else {
-                saveButton.disabled = true;
-            }
+            changeSaveButtonState(form);
         });
     });
 })();
