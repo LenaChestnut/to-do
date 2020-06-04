@@ -19,6 +19,8 @@ const eventHandler = (() => {
         }
     });
 
+    // Form events
+
     elements.newProjectBtn.addEventListener('click', () => {
         hideElement(elements.newProjectBtn);
         createProjectForm(elements.menuPanel, 'project-form');

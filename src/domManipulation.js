@@ -33,7 +33,7 @@ function loadMenuPanel() {
     elements.container.appendChild(elements.menuPanel);
     elements.menuPanel.appendChild(elements.projectList);
     appendProjectCards();
-    elements.newProjectBtn.textContent = '+ New project';
+    elements.newProjectBtn.innerHTML = '<p><img src="../dist/assets/plus.svg">New project</p>';
     elements.newProjectBtn.style.display = 'block';
     elements.menuPanel.appendChild(elements.newProjectBtn);
 }
