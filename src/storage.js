@@ -15,3 +15,17 @@ export function addProject(newProject) {
     localStorage.setItem('projects', JSON.stringify(storedProjects));
     PubSub.publish('Update storage');
 }
+
+
+export function removeProject(projectIndex) {
+    let storedProjects = JSON.parse(localStorage.getItem('projects'));
+    let index = projectIndex;
+    // for (let i = 0; i < storedProjects.length; i++) {
+    //     if (storedProjects[i].name === project) {
+    //         index = i;
+    //     }
+    // }
+    storedProjects.splice(index, 1);
+    localStorage.setItem('projects', JSON.stringify(storedProjects));
+    PubSub.publish('Update storage');
+}

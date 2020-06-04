@@ -75,14 +75,14 @@ export const projectCardModule = (() => {
         projectCard.appendChild(projectName);
 
         const editButton = document.createElement('button');
-        editButton.classList.add("edit-btn");
+        editButton.classList.add("edit");
         const editIcon = document.createElement('img');
         editIcon.setAttribute('src', '../dist/assets/edit.svg');
         editIcon.setAttribute('alt', 'Edit');
         editButton.appendChild(editIcon);
 
         const removeButton = document.createElement('button');
-        removeButton.classList.add("remove-btn");
+        removeButton.classList.add("remove");
         const removeIcon = document.createElement('img');
         removeIcon.setAttribute('src', '../dist/assets/trash.svg');
         removeIcon.setAttribute('alt', 'remove');

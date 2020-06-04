@@ -3,7 +3,7 @@ import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, 
 import { createProjectForm, getFormInput, changeSaveButtonState } from './formController.js';
 import PubSub from 'pubsub-js'
 import ProjectFactory from './projectController.js';
-import { addProject } from './storage.js'
+import { addProject, removeProject } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
@@ -14,7 +14,19 @@ const eventHandler = (() => {
 
         for (let i = 0; i < projectCards.length; i++) {
             projectCards[i].addEventListener('click', function(e) {
-                alert('project clicked');
+                let target = getEventTarget(e);
+                if (target.tagName.toLowerCase() === 'button') {
+                    let targetClass = getTargetClass(target);
+                    if (targetClass === 'edit') {
+
+                    } else if (targetClass === 'remove') {
+                        let userConfirm = confirm("Are you sure? You won't be able to cancel this action.")
+                        if (userConfirm) {
+                            // alert(i);
+                            removeProject(i);
+                        }
+                    }
+                }
             });
         }
     });
