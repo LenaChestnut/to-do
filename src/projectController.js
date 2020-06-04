@@ -29,8 +29,4 @@ const ProjectFactory = (projectName) => {
     }
 }
 
-function addProject(name) {
-    
-}
-
 export default ProjectFactory
