@@ -55,9 +55,14 @@ function hideMenuPanel() {
 function appendProjectCards() {
     const projects = getProjects();
     for (let i = 0; i < projects.length; i++) {
-        projectCardModule.buildCard(projects[i]);
+        projectCardModule.buildCard(projects[i].name);
     }
     PubSub.publish("View projects");
+}
+
+export function updateProjectList() {
+    elements.projectList.innerHTML = "";
+    appendProjectCards();
 }
 
 export const projectCardModule = (() => {

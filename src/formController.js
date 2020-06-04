@@ -1,5 +1,3 @@
-import { elements } from "./domManipulation";
-
 // BASIC FORM ELEMENTS
 
 function createFormContainer(name) {

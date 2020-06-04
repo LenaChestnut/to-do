@@ -1,8 +1,9 @@
-import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, showElement } from './domManipulation.js'
-import { createProjectForm, getFormInput, validateInput, getSaveButton, changeSaveButtonState } from './formController.js';
+import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, showElement,
+        updateProjectList } from './domManipulation.js'
+import { createProjectForm, getFormInput, changeSaveButtonState } from './formController.js';
 import PubSub from 'pubsub-js'
 import ProjectFactory from './projectController.js';
-import { getProjects } from './storage.js'
+import { addProject } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
@@ -26,13 +27,13 @@ const eventHandler = (() => {
     PubSub.subscribe('Create form', function() {
         const form = document.querySelector('form');
         form.addEventListener('click', function(e) {
-            // process the event based on the type of clicked element
+            // process the event based on the type of clicked element and name of the form
             let target = getEventTarget(e);
             if (target.tagName.toLowerCase() === 'button') {
                 let targetClass = getTargetClass(target);
                 if (targetClass === 'save') {
                     e.preventDefault();
-                    alert(getFormInput(form.name));
+                    handleSubmit(form);
                 } else if (targetClass === 'cancel') {
                     removeNode(form);
                     showElement(elements.newProjectBtn);
@@ -45,6 +46,8 @@ const eventHandler = (() => {
             changeSaveButtonState(form);
         });
     });
+
+    PubSub.subscribe('Update storage', updateProjectList);
 })();
 
 function getEventTarget(e) {
@@ -54,6 +57,17 @@ function getEventTarget(e) {
 
 function getTargetClass(eventTarget) {
     return eventTarget.getAttribute('class');
+}
+
+function handleSubmit(form) {
+    let formName = form.name;
+    if (formName === 'project-form') {
+        const projectName = getFormInput(formName);
+        const project = ProjectFactory(projectName);
+        addProject(project);
+        form.reset();
+        changeSaveButtonState(form);
+    }
 }
 
 export default eventHandler
