@@ -157,3 +157,31 @@ button:disabled {
     align-items: center;
 }
 
+form[name='edit-project'] {
+    z-index: 10;
+    position: absolute;
+    background-color: var(--nav-color);
+    top: 50%;
+    left: 50%;
+    padding: 1.5rem;
+    width: 300px;
+    height: 110px;
+    text-align: center;
+    margin-top: -55px;
+    margin-left: -150px;
+    border-radius: 5px;
+}
+
+h2 {
+    font-family: inherit;
+    color: var(--light-text-color);
+    margin-bottom: 0.8rem
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 8;
+    position: absolute;
+}
