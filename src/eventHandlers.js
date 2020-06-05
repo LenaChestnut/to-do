@@ -22,7 +22,6 @@ const eventHandler = (() => {
                     } else if (targetClass === 'remove') {
                         let userConfirm = confirm("Are you sure? You won't be able to cancel this action.")
                         if (userConfirm) {
-                            // alert(i);
                             removeProject(i);
                         }
                     }
