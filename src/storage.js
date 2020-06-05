@@ -8,6 +8,12 @@ export function getProjects() {
     return projects;
 }
 
+export function getProjectAtIndex(index) {
+    let storedProjects = getProjects();
+    let currentProject = storedProjects[index];
+    return currentProject;
+}
+
 export function addProject(newProject) {
     let storedProjects = localStorage.getItem('projects');
     storedProjects = storedProjects ? JSON.parse(storedProjects) : [];

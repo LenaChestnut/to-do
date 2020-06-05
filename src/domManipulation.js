@@ -7,11 +7,13 @@ export const elements = {
     menuPanel: document.createElement('div'),
     projectList: document.createElement('ul'),
     newProjectBtn: document.createElement('button'),
+    overlay: document.createElement('div'),
 };
 
 elements.menuPanel.classList.add('menu-panel');
 elements.projectList.classList.add('projects-container');
 elements.newProjectBtn.classList.add('new-project-btn');
+elements.overlay.classList.add('overlay');
 
 // MENU PANEL
 
@@ -44,6 +46,7 @@ function hideMenuPanel() {
         { transform: 'translateX(-305px)' },
     ], {
         duration: 300,
+        easing: 'ease-in',
     });
     setTimeout(() => {
         removeNode(elements.menuPanel);
@@ -121,4 +124,8 @@ export function hideElement(element) {
 
 export function showElement(element) {
     element.style.display = 'block';
+}
+
+export function showOverlay() {
+
 }

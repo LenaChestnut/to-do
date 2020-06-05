@@ -29,7 +29,7 @@ function createButton(type, source, text, btnClass) {
     return button;
 }
 
-export function createProjectForm(container, name) {
+export function createProjectForm(container, name, project = null) {
     const form = createFormContainer(name);
 
     const projectNameField = createInput('text', 'project-name');
@@ -38,6 +38,13 @@ export function createProjectForm(container, name) {
 
     const saveBtn = createButton('submit', '../dist/assets/plus.svg', 'save', 'save');
     const cancelBtn = createButton('reset', '../dist/assets/x.svg', 'cancel', 'cancel');
+
+    if (name === 'edit-project') {
+        const formTitle = document.createElement('h2');
+        formTitle.textContent = "Edit project";
+        form.appendChild(formTitle);
+        projectNameField.value = project.name;
+    }
 
     form.appendChild(projectNameField);
     form.appendChild(saveBtn);

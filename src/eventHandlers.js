@@ -3,7 +3,7 @@ import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, 
 import { createProjectForm, getFormInput, changeSaveButtonState } from './formController.js';
 import PubSub from 'pubsub-js'
 import ProjectFactory from './projectController.js';
-import { addProject, removeProject } from './storage.js'
+import { addProject, removeProject, getProjectAtIndex } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
@@ -18,7 +18,17 @@ const eventHandler = (() => {
                 if (target.tagName.toLowerCase() === 'button') {
                     let targetClass = getTargetClass(target);
                     if (targetClass === 'edit') {
-
+                        elements.container.appendChild(elements.overlay);
+                        elements.overlay.animate([
+                            { backgroundColor: 'rgba(0, 0, 0, 0)' },
+                            { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+                        ], {
+                            duration: 150,
+                        });
+                        setTimeout(() => {
+                            let project = getProjectAtIndex(i);
+                            createProjectForm(elements.container, 'edit-project', project);
+                        }, 150);
                     } else if (targetClass === 'remove') {
                         let userConfirm = confirm("Are you sure? You won't be able to cancel this action.")
                         if (userConfirm) {
@@ -48,8 +58,7 @@ const eventHandler = (() => {
                     e.preventDefault();
                     handleSubmit(form);
                 } else if (targetClass === 'cancel') {
-                    removeNode(form);
-                    showElement(elements.newProjectBtn);
+                    handleCancel(form);
                 }
             }
         });
@@ -80,6 +89,26 @@ function handleSubmit(form) {
         addProject(project);
         form.reset();
         changeSaveButtonState(form);
+    }
+}
+
+function handleCancel(form) {
+    let formName = form.name;
+    if (formName === 'project-form') {
+        removeNode(form);
+        showElement(elements.newProjectBtn);
+    } else if (formName === 'edit-project') {
+        form.reset();
+        elements.overlay.animate([
+            { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+            { backgroundColor: 'rgba(0, 0, 0, 0)' },
+        ], {
+            duration: 150,
+        });
+        setTimeout(() => {
+            removeNode(elements.overlay);
+            removeNode(form);
+        }, 150);
     }
 }
 
