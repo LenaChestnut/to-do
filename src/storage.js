@@ -15,18 +15,20 @@ export function getProjectAtIndex(index) {
 }
 
 export function addProject(newProject) {
-    let storedProjects = localStorage.getItem('projects');
-    storedProjects = storedProjects ? JSON.parse(storedProjects) : [];
+    let storedProjects = getProjects();
     storedProjects.push(newProject);
-    localStorage.setItem('projects', JSON.stringify(storedProjects));
-    PubSub.publish('Update storage');
+    updateStorage(storedProjects);
 }
 
 
 export function removeProject(projectIndex) {
-    let storedProjects = JSON.parse(localStorage.getItem('projects'));
+    let storedProjects = getProjects();
     let index = projectIndex;
     storedProjects.splice(index, 1);
-    localStorage.setItem('projects', JSON.stringify(storedProjects));
+    updateStorage(storedProjects);
+}
+
+function updateStorage(projectsArr) {
+    localStorage.setItem('projects', JSON.stringify(projectsArr));
     PubSub.publish('Update storage');
 }
