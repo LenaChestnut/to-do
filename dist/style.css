@@ -11,13 +11,13 @@
 
 html, body {
     min-width: 320px;
-    height: 100%;
     background: var(--bg-color);
     font-family: 'Montserrat', sans-serif;
 }
 
 nav {
     position: fixed;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,6 +36,10 @@ nav {
     display: flex;
 }
 
+.nav-link {
+    margin-right: 0.6rem;
+}
+
 h1 {
     font-family: 'Comfortaa', cursive;
 }
@@ -52,10 +56,6 @@ button {
 img {
     display: block;
     pointer-events: none;
-}
-
-.nav-link {
-    margin-right: 0.6rem;
 }
 
 .menu-panel {
@@ -91,16 +91,16 @@ img {
 
 }
 
+li {
+    cursor: pointer;
+}
+
 .project-card {
     display: flex;
     align-items: center;
     width: 240px;
     height: 40px;
     color: var(--light-text-color);
-}
-
-li {
-    cursor: pointer;
 }
 
 .project-card p {
@@ -113,19 +113,18 @@ li {
     margin-left: 0.5rem;
 }
 
-.new-project-btn {
+.new-project-btn, .new-task-btn {
     padding: 0.4rem;
     align-items: center;
 }
 
-.new-project-btn p {
+.new-project-btn p, .new-task-btn p {
     margin: 0 0.2rem 0 0;
     color: var(--light-text-color);
-    color: #c5c5c5;
     display: flex;
 }
 
-.new-project-btn img {
+.new-project-btn img, .new-task-btn img {
     display: inline;
     margin-right: 0.2rem;
 }
@@ -161,13 +160,12 @@ form[name='edit-project'] {
     z-index: 10;
     position: absolute;
     background-color: var(--nav-color);
-    top: 50%;
+    top: 30%;
     left: 50%;
     padding: 1.5rem;
     width: 300px;
     height: 110px;
     text-align: center;
-    margin-top: -55px;
     margin-left: -150px;
     border-radius: 5px;
 }
@@ -184,4 +182,85 @@ h2 {
     background-color: rgba(0,0,0,0.5);
     z-index: 8;
     position: absolute;
+    top: 0;
+}
+
+.task-list {
+    width: 100%;
+    max-width: 720px;
+    margin: 45px auto;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+.task-card {
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  background-color: transparent;
+  color: var(--light-text-color);
+  border-radius: 5px;
+  position: relative;
+}
+
+.high-priority {
+  border: 1px solid #da535e;
+}
+
+.medium-priority {
+  border: 1px solid #ffe345;
+}
+
+.low-priority {
+  border: 1px solid #578d3e;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+}
+
+.task-info {
+  font-size: 0.7rem;
+}
+
+.task-card > div {
+  padding : 1rem 0;
+  flex-grow: 1;
+}
+
+.task-card p {
+  margin: 0;
+}
+
+.task-info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.task-info-container p {
+  width: 1fr;
+}
+
+input[type="checkbox"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+
+label {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: var(--light-text-color);
+    border-radius: 5px;
+    align-self: center;
+    margin: 1rem;
+}
+
+label:hover, input[type="checkbox"]:checked + label {
+    background: center no-repeat url('../dist/assets/check.svg'),
+                var(--light-text-color);
 }

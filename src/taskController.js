@@ -1,22 +1,20 @@
-const TaskFactory = (taskTitle, taskDescr) => {
-    let title = taskTitle;
-     description = taskDescr;
-  
-    function getTitle() {
-        return title;
-    }
-  
-    function getDescr() {
-        return description;
-    }
+import { format } from 'date-fns'
 
-    // function editTask(key, value) {
-    //     key = value;
-    // }
-  
+const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) => {
+    const title = taskTitle;
+    const description = taskDescr;
+    const project = taskProject;
+    const priority = taskPriority;
+    const dueDate = format(taskDate, 'MM/dd/yyyy');
+    const subTasks = [];
+
     return {
-        getTitle,
-        getDescr,
+        title,
+        description,
+        project,
+        priority,
+        dueDate,
+        subTasks,
     }
 }
 

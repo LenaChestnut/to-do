@@ -1,5 +1,8 @@
-// BASIC FORM ELEMENTS
+import { addProject, editProject, getProjectAtIndex } from './storage.js'
+import { elements, hideOverlay, removeNode, showElement } from './domManipulation.js'
+import ProjectFactory from './projectController.js';
 
+// BASIC FORM ELEMENTS
 function createFormContainer(name) {
     const form = document.createElement('form');
     form.setAttribute('name', `${name}`);
@@ -29,7 +32,7 @@ function createButton(type, source, text, btnClass) {
     return button;
 }
 
-export function createProjectForm(container, name, project = null) {
+export function createProjectForm(container, name, index = null) {
     const form = createFormContainer(name);
 
     const projectNameField = createInput('text', 'project-name');
@@ -40,9 +43,12 @@ export function createProjectForm(container, name, project = null) {
     const cancelBtn = createButton('reset', '../dist/assets/x.svg', 'cancel', 'cancel');
 
     if (name === 'edit-project') {
+        form.setAttribute('id', index);
         const formTitle = document.createElement('h2');
         formTitle.textContent = "Edit project";
         form.appendChild(formTitle);
+
+        let project = getProjectAtIndex(index);
         projectNameField.value = project.name;
     }
 
@@ -50,17 +56,12 @@ export function createProjectForm(container, name, project = null) {
     form.appendChild(saveBtn);
     form.appendChild(cancelBtn);
     container.appendChild(form);
-    PubSub.publish('Create form');
+    PubSub.publish('Create form', {
+        form: form,
+    });
 };
 
 // FORM PROCESSING
-
-export function getFormInput(formName) {
-    const form = document.forms[`${formName}`];
-    if (formName === 'project-form') {
-        return form['project-name'].value;
-    }
-}
 
 export function validateInput(form) {
     const formElements = getFormElements(form);
@@ -71,6 +72,13 @@ export function validateInput(form) {
 function getFormElements(form) {
     const formElements = Array.from(form.elements);
     return formElements;
+}
+
+export function getFormInput(formName) {
+    const form = document.forms[`${formName}`];
+    if (formName === 'project-form' || formName === 'edit-project') {
+        return form['project-name'].value;
+    }
 }
 
 export function changeSaveButtonState(form) {
@@ -91,4 +99,38 @@ export function getSaveButton(form) {
     });
     const saveBtn = saveBtnArr[0];
     return saveBtn;
+}
+
+export function handleSubmit(form) {
+    let formName = form.name;
+    if (formName === 'project-form') {
+        const projectName = getFormInput(formName);
+        const project = ProjectFactory(projectName);
+        addProject(project);
+        form.reset();
+        changeSaveButtonState(form);
+    } else if (formName === 'edit-project') {
+        const projectName = getFormInput(formName);
+        const projectIndex = Number(form.id);
+        editProject(projectIndex, projectName);
+        hideOverlay();
+        setTimeout(() => { 
+            removeNode(elements.overlay);
+            removeNode(form);
+        }, 150);
+    }
+}
+
+export function handleCancel(form) {
+    let formName = form.name;
+    if (formName === 'project-form') {
+        removeNode(form);
+        showElement(elements.newProjectBtn);
+    } else if (formName === 'edit-project') {
+        hideOverlay();
+        setTimeout(() => { 
+            removeNode(elements.overlay);
+            removeNode(form);
+        }, 150);
+    }
 }

@@ -1,9 +1,8 @@
-import { elements, toggleMenuPanel, projectCardModule, removeNode, hideElement, showElement,
-        updateProjectList } from './domManipulation.js'
-import { createProjectForm, getFormInput, changeSaveButtonState } from './formController.js';
+import { elements, toggleMenuPanel, projectCardModule, hideElement,
+        updateProjectList, showOverlay } from './domManipulation.js'
+import { createProjectForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
 import PubSub from 'pubsub-js'
-import ProjectFactory from './projectController.js';
-import { addProject, removeProject, getProjectAtIndex } from './storage.js'
+import { removeProject } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
@@ -18,16 +17,9 @@ const eventHandler = (() => {
                 if (target.tagName.toLowerCase() === 'button') {
                     let targetClass = getTargetClass(target);
                     if (targetClass === 'edit') {
-                        elements.container.appendChild(elements.overlay);
-                        elements.overlay.animate([
-                            { backgroundColor: 'rgba(0, 0, 0, 0)' },
-                            { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
-                        ], {
-                            duration: 150,
-                        });
+                        showOverlay();
                         setTimeout(() => {
-                            let project = getProjectAtIndex(i);
-                            createProjectForm(elements.container, 'edit-project', project);
+                            createProjectForm(elements.container, 'edit-project', i);
                         }, 150);
                     } else if (targetClass === 'remove') {
                         let userConfirm = confirm("Are you sure? You won't be able to cancel this action.")
@@ -47,10 +39,11 @@ const eventHandler = (() => {
         createProjectForm(elements.menuPanel, 'project-form');
     });
 
-    PubSub.subscribe('Create form', function() {
-        const form = document.querySelector('form');
+    PubSub.subscribe('Create form', function(tag, data) {
+        // tag and data info passed from published event
+        const form = data.form;
         form.addEventListener('click', function(e) {
-            // process the event based on the type of clicked element and name of the form
+            // process the event based on the type of clicked element
             let target = getEventTarget(e);
             if (target.tagName.toLowerCase() === 'button') {
                 let targetClass = getTargetClass(target);
@@ -79,37 +72,6 @@ function getEventTarget(e) {
 
 function getTargetClass(eventTarget) {
     return eventTarget.getAttribute('class');
-}
-
-function handleSubmit(form) {
-    let formName = form.name;
-    if (formName === 'project-form') {
-        const projectName = getFormInput(formName);
-        const project = ProjectFactory(projectName);
-        addProject(project);
-        form.reset();
-        changeSaveButtonState(form);
-    }
-}
-
-function handleCancel(form) {
-    let formName = form.name;
-    if (formName === 'project-form') {
-        removeNode(form);
-        showElement(elements.newProjectBtn);
-    } else if (formName === 'edit-project') {
-        form.reset();
-        elements.overlay.animate([
-            { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
-            { backgroundColor: 'rgba(0, 0, 0, 0)' },
-        ], {
-            duration: 150,
-        });
-        setTimeout(() => {
-            removeNode(elements.overlay);
-            removeNode(form);
-        }, 150);
-    }
 }
 
 export default eventHandler
