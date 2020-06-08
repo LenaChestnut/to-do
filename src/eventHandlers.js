@@ -63,6 +63,13 @@ const eventHandler = (() => {
     });
 
     PubSub.subscribe('Update storage', updateProjectList);
+
+    // TASK VIEW EVENTS
+    PubSub.subscribe('Load task card', function(tag, data) {
+        data.expandBtn.addEventListener('click', function() {
+            alert(`${data.title} from ${data.project}`);
+        });
+    });
 })();
 
 function getEventTarget(e) {

@@ -128,6 +128,14 @@ function buildTaskCard(task) {
   
     elements.taskList.appendChild(taskCard);
     elements.taskList.appendChild(taskCard);
+
+    PubSub.publish('Load task card', {
+        taskCard: taskCard,
+        expandBtn: expandBtn,
+        checkbox: checkbox,
+        project: task.project,
+        title: task.title,
+    });
 }
 
 // PROJECT CARDS
