@@ -68,7 +68,6 @@ export function loadTaskView(requestedTasks) {
 }
 
 function appendTaskCards(requestedTasks) {
-    // const tasks = getAllTasks();
     requestedTasks.forEach((task) => {buildTaskCard(task)});
 }
 
