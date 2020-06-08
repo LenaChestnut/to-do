@@ -59,17 +59,17 @@ function hideMenuPanel() {
 
 // TASK VIEW
 
-export function loadTaskView() {
-    appendTaskCards();
+export function loadTaskView(requestedTasks) {
+    appendTaskCards(requestedTasks);
     elements.newTaskBtn.innerHTML = '<p><img src="../dist/assets/plus.svg">New task</p>';
     elements.newTaskBtn.style.display = 'block';
     elements.taskList.appendChild(elements.newTaskBtn);
     elements.container.appendChild(elements.taskList);
 }
 
-function appendTaskCards() {
-    const tasks = getAllTasks();
-    tasks.forEach((task) => {buildTaskCard(task)});
+function appendTaskCards(requestedTasks) {
+    // const tasks = getAllTasks();
+    requestedTasks.forEach((task) => {buildTaskCard(task)});
 }
 
 function buildTaskCard(task) {
