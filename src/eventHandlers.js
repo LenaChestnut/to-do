@@ -1,5 +1,5 @@
 import { elements, toggleMenuPanel, projectCardModule, hideElement,
-        updateProjectList, showOverlay } from './domManipulation.js'
+        updateProjectList, showOverlay, expandTaskCard } from './domManipulation.js'
 import { createProjectForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
 import PubSub from 'pubsub-js'
 import { removeProject } from './storage.js'
@@ -67,7 +67,7 @@ const eventHandler = (() => {
     // TASK VIEW EVENTS
     PubSub.subscribe('Load task card', function(tag, data) {
         data.expandBtn.addEventListener('click', function() {
-            alert(`${data.title} from ${data.project}`);
+            expandTaskCard(data.task);
         });
     });
 })();

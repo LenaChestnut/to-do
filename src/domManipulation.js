@@ -133,9 +133,12 @@ function buildTaskCard(task) {
         taskCard: taskCard,
         expandBtn: expandBtn,
         checkbox: checkbox,
-        project: task.project,
-        title: task.title,
+        task: task,
     });
+}
+
+export function expandTaskCard(task) {
+    alert(task.title + ' ' + task.description + ' ' + task.project);
 }
 
 // PROJECT CARDS
