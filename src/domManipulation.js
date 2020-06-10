@@ -1,5 +1,6 @@
 import PubSub from 'pubsub-js'
 import { getProjects, getAllTasks } from './storage.js'
+import { createButton } from './formController.js'
 
 export const elements = {
     container: document.getElementById("container"),
@@ -72,6 +73,8 @@ function appendTaskCards(requestedTasks) {
 }
 
 function buildTaskCard(task) {
+    const cardContainer = document.createElement('div');
+    cardContainer.classList.add('card-container');
     const taskCard = document.createElement('div');
     taskCard.classList.add('task-card');
   
@@ -81,17 +84,14 @@ function buildTaskCard(task) {
     taskInfo.classList.add('task-info-container');
   
     if (task.priority.toLowerCase() === 'high') {
-        taskCard.classList.add('high-priority');
+        cardContainer.classList.add('high-priority');
     } else if (task.priority.toLowerCase() === 'medium') {
-        taskCard.classList.add('medium-priority');
+        cardContainer.classList.add('medium-priority');
     } else if (task.priority.toLowerCase() === 'low') {
-        taskCard.classList.add('low-priority');
+        cardContainer.classList.add('low-priority');
     }
-  
-    const expandBtn = document.createElement('button');
-    expandBtn.innerHTML = '<img src="../dist/assets/chevron-down.svg" alt="Expand">'
-    expandBtn.setAttribute('type', 'button');
-    expandBtn.classList.add('expand-btn');
+
+    const expandBtn = createButton('button', '../dist/assets/chevron-down.svg', '', 'expand-btn');
     taskCard.appendChild(expandBtn);
   
     const taskTitle = document.createElement('p');
@@ -102,17 +102,6 @@ function buildTaskCard(task) {
     taskDate.textContent = 'Due: ' + task.dueDate;
     taskDate.classList.add('task-info');
     taskInfo.appendChild(taskDate);
-  
-    let numOfSubtasks = task.subTasks.length;
-    if (numOfSubtasks > 0) {
-        const subTasksInfo = document.createElement('p');
-        subTasksInfo.textContent = numOfSubtasks + ' subtask';
-        if (numOfSubtasks !== 1) {
-        subTasksInfo.textContent = subTasksInfo.textContent + 's';
-        }
-        subTasksInfo.classList.add('task-info');
-        taskInfo.appendChild(subTasksInfo);
-    }
   
     taskContainer.appendChild(taskInfo);
     taskCard.appendChild(taskContainer);
@@ -126,19 +115,38 @@ function buildTaskCard(task) {
     label.setAttribute('for', `${checkId}`);
     taskCard.appendChild(label);
   
-    elements.taskList.appendChild(taskCard);
-    elements.taskList.appendChild(taskCard);
+    // elements.taskList.appendChild(taskCard);
+    cardContainer.appendChild(taskCard);
+    elements.taskList.appendChild(cardContainer);
 
     PubSub.publish('Load task card', {
-        taskCard: taskCard,
+        card: cardContainer,
         expandBtn: expandBtn,
         checkbox: checkbox,
         task: task,
     });
 }
 
-export function expandTaskCard(task) {
-    alert(task.title + ' ' + task.description + ' ' + task.project);
+export function expandTaskCard(task, card) {
+    const expandedInfoContainer = document.createElement('div');
+    expandedInfoContainer.classList.add('expanded-info-container');
+
+    const description = document.createElement('p');
+    description.textContent = task.description;
+    expandedInfoContainer.appendChild(description);
+
+    const project = document.createElement('p');
+    project.classList.add('task-project-info');
+    project.textContent = task.project;
+    expandedInfoContainer.appendChild(project);
+
+    // const editTask = createButton('button', '../dist/assets/edit.svg', 'Edit task', 'edit');
+    const editTask = document.createElement('button');
+    editTask.classList.add('edit');
+    editTask.textContent = 'Edit task';
+    expandedInfoContainer.appendChild(editTask);
+
+    card.appendChild(expandedInfoContainer);
 }
 
 // PROJECT CARDS

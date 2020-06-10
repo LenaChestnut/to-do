@@ -6,7 +6,6 @@ const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) 
     const project = taskProject;
     const priority = taskPriority;
     const dueDate = format(taskDate, 'MM/dd/yyyy');
-    const subTasks = [];
 
     return {
         title,
@@ -14,7 +13,6 @@ const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) 
         project,
         priority,
         dueDate,
-        subTasks,
     }
 }
 

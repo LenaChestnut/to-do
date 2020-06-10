@@ -67,7 +67,7 @@ const eventHandler = (() => {
     // TASK VIEW EVENTS
     PubSub.subscribe('Load task card', function(tag, data) {
         data.expandBtn.addEventListener('click', function() {
-            expandTaskCard(data.task);
+            expandTaskCard(data.task, data.card);
         });
     });
 })();

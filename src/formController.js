@@ -16,7 +16,7 @@ function createInput(type, name) {
     return input;
 }
 
-function createButton(type, source, text, btnClass) {
+export function createButton(type, source, text, btnClass) {
     const button = document.createElement('button');
     button.setAttribute('type', `${type}`);
     const icon = document.createElement('img');
