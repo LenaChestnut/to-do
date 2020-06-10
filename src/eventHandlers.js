@@ -1,5 +1,6 @@
 import { elements, toggleMenuPanel, projectCardModule, hideElement,
-        updateProjectList, showOverlay, expandTaskCard } from './domManipulation.js'
+        updateProjectList, showOverlay, expandTaskCard, changeToCollapse, changeToExpand,
+        collapseTaskCard } from './domManipulation.js'
 import { createProjectForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
 import PubSub from 'pubsub-js'
 import { removeProject } from './storage.js'
@@ -66,8 +67,17 @@ const eventHandler = (() => {
 
     // TASK VIEW EVENTS
     PubSub.subscribe('Load task card', function(tag, data) {
+        let taskExpanded = false;
         data.expandBtn.addEventListener('click', function() {
-            expandTaskCard(data.task, data.card);
+            if (taskExpanded) {
+                taskExpanded = false;
+                changeToExpand(data.expandBtn);
+                collapseTaskCard(data.card);
+            } else {
+                taskExpanded = true;
+                changeToCollapse(data.expandBtn);
+                expandTaskCard(data.task, data.card);
+            }
         });
     });
 })();

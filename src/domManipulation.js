@@ -140,13 +140,28 @@ export function expandTaskCard(task, card) {
     project.textContent = task.project;
     expandedInfoContainer.appendChild(project);
 
-    // const editTask = createButton('button', '../dist/assets/edit.svg', 'Edit task', 'edit');
     const editTask = document.createElement('button');
     editTask.classList.add('edit');
     editTask.textContent = 'Edit task';
     expandedInfoContainer.appendChild(editTask);
 
     card.appendChild(expandedInfoContainer);
+
+    PubSub.publish('Task expanded', {
+        expandedContainer: expandedInfoContainer,
+    });
+}
+
+export function collapseTaskCard(card) {
+    card.removeChild(card.lastChild);
+}
+
+export function changeToCollapse(button) {
+    button.setAttribute('class', 'collapse-btn');
+}
+
+export function changeToExpand(button) {
+    button.setAttribute('class', 'expand-btn');
 }
 
 // PROJECT CARDS

@@ -201,52 +201,54 @@ h2 {
 }
 
 .task-card {
-  width: 100%;
-  display: flex;
-  background-color: transparent;
-  color: var(--light-text-color);
-  position: relative;
+    width: 100%;
+    display: flex;
+    background-color: transparent;
+    color: var(--light-text-color);
+    position: relative;
   
 }
 
 .high-priority {
-  border: 1px solid #da535e;
+    border: 1px solid #da535e;
 }
 
 .medium-priority {
-  border: 1px solid #ffe345;
+    border: 1px solid #ffe345;
 }
 
 .low-priority {
-  border: 1px solid #578d3e;
+    border: 1px solid #578d3e;
 }
 
-.expand-btn {
-  background: none;
-  border: none;
+.expand-btn, .collapse-btn {
+    background: none;
+    border: none;
+}
+
+.collapse-btn img {
+    transform: rotate(180deg);
 }
 
 .task-info {
-  font-size: 0.7rem;
+    font-size: 0.7rem;
 }
+
 .task-card > div {
-  padding : 1rem 0;
-  flex-grow: 1;
+    padding : 1rem 0;
+    flex-grow: 1;
 }
 
 .task-card p {
-  margin: 0;
+    margin: 0;
 }
 
 .task-info-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
 }
 
-.task-info-container p {
-  width: 1fr;
-}
 
 input[type="checkbox"] {
     opacity: 0;
@@ -280,11 +282,12 @@ label:hover, input[type="checkbox"]:checked + label {
 
 .expanded-info-container .edit {
     display: block;
-    margin-top: 0.8rem;
+    margin-top: 0.4em;
     background-color: transparent;
     padding: 0;
     border-radius: 0px;
     border-bottom: 1px solid currentColor;
+    font-size: 0.7rem;
 }
 
 .task-project-info {
