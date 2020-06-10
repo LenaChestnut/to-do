@@ -193,14 +193,20 @@ h2 {
     font-size: 0.9rem;
 }
 
+.card-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
 .task-card {
   width: 100%;
-  margin: 1rem 0;
   display: flex;
   background-color: transparent;
   color: var(--light-text-color);
-  border-radius: 5px;
   position: relative;
+  
 }
 
 .high-priority {
@@ -223,7 +229,6 @@ h2 {
 .task-info {
   font-size: 0.7rem;
 }
-
 .task-card > div {
   padding : 1rem 0;
   flex-grow: 1;
@@ -249,7 +254,6 @@ input[type="checkbox"] {
     width: 0;
 }
 
-
 label {
     display: inline-block;
     width: 20px;
@@ -263,4 +267,31 @@ label {
 label:hover, input[type="checkbox"]:checked + label {
     background: center no-repeat url('../dist/assets/check.svg'),
                 var(--light-text-color);
+}
+
+.expanded-info-container {
+    padding: 0 52px 1.5rem 28px;
+    color: var(--light-text-color);
+}
+
+.expanded-info-container p {
+    margin-bottom: 0.5rem;
+}
+
+.expanded-info-container .edit {
+    display: block;
+    margin-top: 0.8rem;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0px;
+    border-bottom: 1px solid currentColor;
+}
+
+.task-project-info {
+    padding: 0.4rem;
+    margin: 0;
+    background: var(--button-color);
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 0.7rem;
 }
