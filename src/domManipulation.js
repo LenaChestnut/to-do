@@ -11,6 +11,7 @@ export const elements = {
     taskList: document.createElement('div'),
     newTaskBtn: document.createElement('button'),
     overlay: document.createElement('div'),
+    currentProject: 0,
 };
 
 elements.menuPanel.classList.add('menu-panel');
@@ -36,12 +37,22 @@ function isMenuOpen() {
     }
 }
 
+PubSub.subscribe('Active project', function(tag, data) {
+    elements.currentProject = data.projectIndex;
+});
+
+export function setCurrentProject(project) {
+    elements.currentProject = project;
+}
+
 function loadMenuPanel() {
     elements.container.appendChild(elements.menuPanel);
     elements.menuPanel.appendChild(elements.projectList);
     appendProjectCards();
     elements.newProjectBtn.innerHTML = '<p><img src="../dist/assets/plus.svg">New project</p>';
     elements.newProjectBtn.style.display = 'block';
+    let projectCards = projectCardModule.getProjectCards();
+    projectCards[elements.currentProject].classList.add('selected-project');
     elements.menuPanel.appendChild(elements.newProjectBtn);
 }
 

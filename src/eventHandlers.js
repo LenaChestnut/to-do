@@ -33,6 +33,9 @@ const eventHandler = (() => {
                     loadTaskView(currentProjectTasks);
                     projectCards.forEach((project) => {project.classList.remove('selected-project')});
                     projectCards[i].classList.add('selected-project');
+                    PubSub.publish('Active project', {
+                        projectIndex: i,
+                    });
                 }
             });
         }
