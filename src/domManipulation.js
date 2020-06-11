@@ -41,10 +41,6 @@ PubSub.subscribe('Active project', function(tag, data) {
     elements.currentProject = data.projectIndex;
 });
 
-export function setCurrentProject(project) {
-    elements.currentProject = project;
-}
-
 function loadMenuPanel() {
     elements.container.appendChild(elements.menuPanel);
     elements.menuPanel.appendChild(elements.projectList);
