@@ -70,6 +70,7 @@ img {
     box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     animation: slidein 0.3s;
     overflow-y: auto;
+    z-index: 4;
 }
 
 .menu-panel ul {
@@ -100,7 +101,17 @@ li {
     align-items: center;
     width: 240px;
     height: 40px;
+    color: var(--btn-disabled);
+}
+
+.selected-project {
     color: var(--light-text-color);
+}
+
+.selected-project:before {
+    content: '';
+    height: 10px;
+    width: 10px;
 }
 
 .project-card p {
