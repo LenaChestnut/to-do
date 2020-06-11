@@ -1,9 +1,9 @@
 import { elements, toggleMenuPanel, projectCardModule, hideElement,
         updateProjectList, showOverlay, expandTaskCard, changeToCollapse, changeToExpand,
         collapseTaskCard, loadTaskView } from './domManipulation.js'
-import { createProjectForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
+import { createProjectForm, createTaskForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
 import PubSub from 'pubsub-js'
-import { removeProject, getProjectTasks } from './storage.js'
+import { removeProject, getProjectTasks, getProjectAtIndex } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
@@ -88,6 +88,15 @@ const eventHandler = (() => {
             }
         });
     });
+
+    elements.newTaskBtn.addEventListener('click', () => {
+        console.log(getProjectAtIndex(elements.currentProject));
+        showOverlay();
+        setTimeout(() => {
+            createTaskForm(elements.container, 'new-task');
+        }, 150);
+    });
+    
 })();
 
 function getEventTarget(e) {

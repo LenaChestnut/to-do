@@ -1,5 +1,5 @@
 import PubSub from 'pubsub-js'
-import { getProjects, getAllTasks } from './storage.js'
+import { getProjects, getAllTasks, getProjectAtIndex } from './storage.js'
 import { createButton } from './formController.js'
 
 export const elements = {
@@ -74,6 +74,10 @@ export function loadTaskView(requestedTasks) {
     elements.newTaskBtn.style.display = 'block';
     elements.taskList.appendChild(elements.newTaskBtn);
     elements.container.appendChild(elements.taskList);
+    // PubSub.publish('New task button created', {
+    //     newTaskBtn: elements.newTaskBtn,
+    //     currentProject: getProjectAtIndex(elements.currentProject), 
+    // });
 }
 
 function appendTaskCards(requestedTasks) {
@@ -91,11 +95,11 @@ function buildTaskCard(task) {
     const taskInfo = document.createElement('div');
     taskInfo.classList.add('task-info-container');
   
-    if (task.priority.toLowerCase() === 'high') {
+    if (task.priority === 1) {
         cardContainer.classList.add('high-priority');
-    } else if (task.priority.toLowerCase() === 'medium') {
+    } else if (task.priority === 2) {
         cardContainer.classList.add('medium-priority');
-    } else if (task.priority.toLowerCase() === 'low') {
+    } else if (task.priority === 3) {
         cardContainer.classList.add('low-priority');
     }
 

@@ -7,8 +7,8 @@ const tutorial = ProjectFactory('Tutorial');
     let existingTutorial = getProjectByName('Tutorial');
     if (!existingTutorial.length) {
         const tutorial = ProjectFactory('Tutorial');
-        const task1 = TaskFactory('Create new task', 'Create new task in selected project', 'Tutorial', 'Medium', Date.now());
-        const task2 = TaskFactory('Complete task', 'Press checkmark to complete the task', 'Tutorial', 'Low', Date.now());
+        const task1 = TaskFactory('Create new task', 'Create new task in selected project', 'Tutorial', 2, Date.now());
+        const task2 = TaskFactory('Complete task', 'Press checkmark to complete the task', 'Tutorial', 3, Date.now());
         task1.subTasks = ['Do first thing', 'Do second thing'];
         tutorial.tasks = [task1, task2];
         addProject(tutorial);
