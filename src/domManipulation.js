@@ -61,6 +61,7 @@ function hideMenuPanel() {
 // TASK VIEW
 
 export function loadTaskView(requestedTasks) {
+    elements.taskList.innerHTML = '';
     appendTaskCards(requestedTasks);
     elements.newTaskBtn.innerHTML = '<p><img src="../dist/assets/plus.svg">New task</p>';
     elements.newTaskBtn.style.display = 'block';

@@ -1,9 +1,9 @@
 import { elements, toggleMenuPanel, projectCardModule, hideElement,
         updateProjectList, showOverlay, expandTaskCard, changeToCollapse, changeToExpand,
-        collapseTaskCard } from './domManipulation.js'
+        collapseTaskCard, loadTaskView } from './domManipulation.js'
 import { createProjectForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
 import PubSub from 'pubsub-js'
-import { removeProject } from './storage.js'
+import { removeProject, getProjectTasks } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
@@ -28,6 +28,11 @@ const eventHandler = (() => {
                             removeProject(i);
                         }
                     }
+                } else {
+                    const currentProjectTasks = getProjectTasks(i);
+                    loadTaskView(currentProjectTasks);
+                    projectCards.forEach((project) => {project.classList.remove('selected-project')});
+                    projectCards[i].classList.add('selected-project');
                 }
             });
         }

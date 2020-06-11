@@ -75,3 +75,8 @@ export function getAllTasks() {
     });
     return storedTasks;
 };
+
+export function getProjectTasks(index) {
+    const currentProject = getProjectAtIndex(index);
+    return currentProject.tasks;
+}
