@@ -86,4 +86,5 @@ export function addTask(task, project) {
     let currentProject = storedProjects.find(nextProject => nextProject.name === project);
     currentProject.tasks.push(task);
     updateStorage(storedProjects);
+    PubSub.publish('New task');
 }

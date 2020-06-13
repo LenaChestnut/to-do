@@ -1,5 +1,5 @@
 import PubSub from 'pubsub-js'
-import { getProjects, getAllTasks, getProjectAtIndex } from './storage.js'
+import { getProjects } from './storage.js'
 import { createButton } from './formController.js'
 
 export const elements = {
@@ -44,11 +44,9 @@ PubSub.subscribe('Active project', function(tag, data) {
 function loadMenuPanel() {
     elements.container.appendChild(elements.menuPanel);
     elements.menuPanel.appendChild(elements.projectList);
-    appendProjectCards();
+    updateProjectList();
     elements.newProjectBtn.innerHTML = '<p><img src="../dist/assets/plus.svg">New project</p>';
     elements.newProjectBtn.style.display = 'block';
-    let projectCards = projectCardModule.getProjectCards();
-    projectCards[elements.currentProject].classList.add('selected-project');
     elements.menuPanel.appendChild(elements.newProjectBtn);
 }
 
@@ -122,8 +120,7 @@ function buildTaskCard(task) {
     const label = document.createElement('label');
     label.setAttribute('for', `${checkId}`);
     taskCard.appendChild(label);
-  
-    // elements.taskList.appendChild(taskCard);
+
     cardContainer.appendChild(taskCard);
     elements.taskList.appendChild(cardContainer);
 
@@ -179,6 +176,8 @@ function appendProjectCards() {
     for (let i = 0; i < projects.length; i++) {
         projectCardModule.buildCard(projects[i].name);
     }
+    let projectCards = projectCardModule.getProjectCards();
+    projectCards[elements.currentProject].classList.add('selected-project');
     PubSub.publish("View projects");
 }
 
