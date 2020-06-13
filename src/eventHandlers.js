@@ -71,7 +71,10 @@ const eventHandler = (() => {
         });
     });
 
-    PubSub.subscribe('Update storage', updateProjectList);
+    PubSub.subscribe('Update storage', function() {
+        updateProjectList();
+        loadTaskView(getProjectTasks(elements.currentProject));
+    });
 
     // TASK VIEW EVENTS
     PubSub.subscribe('Load task card', function(tag, data) {
@@ -90,7 +93,6 @@ const eventHandler = (() => {
     });
 
     elements.newTaskBtn.addEventListener('click', () => {
-        console.log(getProjectAtIndex(elements.currentProject));
         showOverlay();
         setTimeout(() => {
             createTaskForm(elements.container, 'new-task');

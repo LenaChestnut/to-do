@@ -80,3 +80,10 @@ export function getProjectTasks(index) {
     const currentProject = getProjectAtIndex(index);
     return currentProject.tasks;
 }
+
+export function addTask(task, project) {
+    let storedProjects = getProjects();
+    let currentProject = storedProjects.find(nextProject => nextProject.name === project);
+    currentProject.tasks.push(task);
+    updateStorage(storedProjects);
+}

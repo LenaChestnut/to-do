@@ -74,10 +74,6 @@ export function loadTaskView(requestedTasks) {
     elements.newTaskBtn.style.display = 'block';
     elements.taskList.appendChild(elements.newTaskBtn);
     elements.container.appendChild(elements.taskList);
-    // PubSub.publish('New task button created', {
-    //     newTaskBtn: elements.newTaskBtn,
-    //     currentProject: getProjectAtIndex(elements.currentProject), 
-    // });
 }
 
 function appendTaskCards(requestedTasks) {

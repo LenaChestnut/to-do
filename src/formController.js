@@ -1,6 +1,7 @@
-import { addProject, editProject, getProjectAtIndex, getProjects } from './storage.js'
+import { addProject, editProject, getProjectAtIndex, getProjects, addTask } from './storage.js'
 import { elements, hideOverlay, removeNode, showElement } from './domManipulation.js'
 import ProjectFactory from './projectController.js'
+import TaskFactory from './taskController.js'
 import { format } from 'date-fns'
 
 // BASIC FORM ELEMENTS
@@ -129,6 +130,7 @@ export function createTaskForm(container, name, index = null) {
     const dueDate = createInput('date', 'due-date');
     dueDate.setAttribute('min', format(Date.now(), "yyyy-MM-dd"));
     dueDate.setAttribute('value', format(Date.now(), "yyyy-MM-dd"));
+    dueDate.required = true;
 
     const saveBtn = createButton('submit', '../dist/assets/plus.svg', 'save', 'save');
     const cancelBtn = createButton('reset', '../dist/assets/x.svg', 'cancel', 'cancel');
@@ -145,6 +147,9 @@ export function createTaskForm(container, name, index = null) {
     form.appendChild(cancelBtn);
 
     container.appendChild(form);
+    PubSub.publish('Create form', {
+        form: form,
+    });
 }
 
 // FORM PROCESSING
@@ -164,6 +169,14 @@ export function getFormInput(formName) {
     const form = document.forms[`${formName}`];
     if (formName === 'project-form' || formName === 'edit-project') {
         return form['project-name'].value;
+    } else if (formName === 'new-task') {
+        return {
+            title: form['task-title'].value,
+            description: form['task-description'].value,
+            project: form['project-select'].value,
+            priority: form['priority-select'].value,
+            date: form['due-date'].value,
+        }
     }
 }
 
@@ -204,6 +217,15 @@ export function handleSubmit(form) {
             removeNode(elements.overlay);
             removeNode(form);
         }, 150);
+    } else if (formName === 'new-task') {
+        const input = getFormInput(formName);
+        const task = TaskFactory(input.title, input.description, input.project, input.priority, input.date);
+        addTask(task, input.project);
+        hideOverlay();
+        setTimeout(() => { 
+            removeNode(elements.overlay);
+            removeNode(form);
+        }, 150);
     }
 }
 
@@ -212,7 +234,7 @@ export function handleCancel(form) {
     if (formName === 'project-form') {
         removeNode(form);
         showElement(elements.newProjectBtn);
-    } else if (formName === 'edit-project') {
+    } else if (formName === 'edit-project' || formName === 'new-task' || formName === 'edit-task') {
         hideOverlay();
         setTimeout(() => { 
             removeNode(elements.overlay);
