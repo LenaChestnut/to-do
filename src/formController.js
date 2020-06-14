@@ -134,7 +134,7 @@ export function createTaskForm(container, name, task = null) {
         taskDescription.value = `${task.description}`;
         projectSelect.value = task.project;
         prioritySelect.value = task.priority;
-        // dueDate.value = format(parseISO(task.dueDate), 'yyyy/MM/dd');;
+        dueDate.value = task.dueDate;
     } else if (name === 'new-task') {
         const formTitle = document.createElement('h2');
         formTitle.textContent = "New task";

@@ -2,6 +2,7 @@ import PubSub from 'pubsub-js'
 import { getProjects } from './storage.js'
 import { createButton } from './formController.js'
 import { currentProject } from './eventHandlers.js'
+import { format, parseISO, isToday, isTomorrow } from 'date-fns'
 
 export const elements = {
     container: document.getElementById("container"),
@@ -101,7 +102,13 @@ function buildTaskCard(task) {
     taskContainer.appendChild(taskTitle);
   
     const taskDate = document.createElement('p');
-    taskDate.textContent = 'Due: ' + task.dueDate;
+    if (isToday(parseISO(task.dueDate))) {
+        taskDate.textContent = 'Due: Today';
+    } else if (isTomorrow(parseISO(task.dueDate))) {
+        taskDate.textContent = 'Due: Tomorrow';
+    } else {
+        taskDate.textContent = 'Due: ' + format(parseISO(task.dueDate), 'PPP');
+    }
     taskDate.classList.add('task-info');
     taskInfo.appendChild(taskDate);
   
