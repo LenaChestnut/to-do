@@ -167,7 +167,7 @@ button:disabled {
     align-items: center;
 }
 
-form[name='edit-project'], form[name='new-task'] {
+form[name='edit-project'], .task-form {
     z-index: 10;
     position: absolute;
     background-color: var(--nav-color);
@@ -310,19 +310,19 @@ label:hover, input[type="checkbox"]:checked + label {
     font-size: 0.7rem;
 }
 
-form[name='new-task'] {
+.task-form {
     height: auto;
     text-align: center;
     top: 15%;
 }
  
-form[name='new-task'] input, textarea, select {
+.task-form input, textarea, select {
     width: 100%;
     margin: 0 auto 0.9rem;
     display: block;
 }
 
-form[name='new-task'] p {
+.task-form p {
     color: var(--light-text-color);
     margin-bottom: 0.4rem;
     font-size: 0.9rem;
