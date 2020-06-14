@@ -1,6 +1,7 @@
 import PubSub from 'pubsub-js'
 import { getProjects } from './storage.js'
 import { createButton } from './formController.js'
+import { currentProject } from './eventHandlers.js'
 
 export const elements = {
     container: document.getElementById("container"),
@@ -11,7 +12,6 @@ export const elements = {
     taskList: document.createElement('div'),
     newTaskBtn: document.createElement('button'),
     overlay: document.createElement('div'),
-    currentProject: 0,
 };
 
 elements.menuPanel.classList.add('menu-panel');
@@ -31,15 +31,11 @@ export function toggleMenuPanel() {
     }
 }
 
-function isMenuOpen() {
+export function isMenuOpen() {
     if (elements.container.contains(elements.menuPanel)) {
         return true;
     }
 }
-
-PubSub.subscribe('Active project', function(tag, data) {
-    elements.currentProject = data.projectIndex;
-});
 
 function loadMenuPanel() {
     elements.container.appendChild(elements.menuPanel);
@@ -169,7 +165,7 @@ export function changeToExpand(button) {
     button.setAttribute('class', 'expand-btn');
 }
 
-// PROJECT CARDS
+// PROJECTS VIEW
 
 function appendProjectCards() {
     const projects = getProjects();
@@ -177,7 +173,7 @@ function appendProjectCards() {
         projectCardModule.buildCard(projects[i].name);
     }
     let projectCards = projectCardModule.getProjectCards();
-    projectCards[elements.currentProject].classList.add('selected-project');
+    projectCards[currentProject].classList.add('selected-project');
     PubSub.publish("View projects");
 }
 
@@ -261,4 +257,7 @@ export function hideOverlay() {
     ], {
         duration: 150,
     });
+    setTimeout(() => { 
+        removeNode(elements.overlay);
+    }, 150);
 }

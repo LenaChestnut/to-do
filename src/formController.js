@@ -3,6 +3,7 @@ import { elements, hideOverlay, removeNode, showElement } from './domManipulatio
 import ProjectFactory from './projectController.js'
 import TaskFactory from './taskController.js'
 import { format } from 'date-fns'
+import { currentProject } from './eventHandlers.js'
 
 // BASIC FORM ELEMENTS
 function createFormContainer(name) {
@@ -30,7 +31,7 @@ function createSelect(selectName) {
             option.textContent = projects[i].name;
             option.value = projects[i].name;
     
-            if (elements.currentProject === i) {
+            if (currentProject === i) {
                 option.selected = true;
             }
     
@@ -66,6 +67,7 @@ export function createButton(type, source, text, btnClass) {
     return button;
 }
 
+// FORM TYPES
 export function createProjectForm(container, name, index = null) {
     const form = createFormContainer(name);
 
@@ -181,6 +183,7 @@ export function getFormInput(formName) {
 }
 
 export function changeSaveButtonState(form) {
+    //disable or enable save button depending on filled out required form fields
     const saveButton = getSaveButton(form);
     if (validateInput(form)) {
         saveButton.disabled = false;
@@ -214,7 +217,6 @@ export function handleSubmit(form) {
         editProject(projectIndex, projectName);
         hideOverlay();
         setTimeout(() => { 
-            removeNode(elements.overlay);
             removeNode(form);
         }, 150);
     } else if (formName === 'new-task') {
@@ -223,7 +225,6 @@ export function handleSubmit(form) {
         addTask(task, input.project);
         hideOverlay();
         setTimeout(() => { 
-            removeNode(elements.overlay);
             removeNode(form);
         }, 150);
     }
@@ -237,7 +238,6 @@ export function handleCancel(form) {
     } else if (formName === 'edit-project' || formName === 'new-task' || formName === 'edit-task') {
         hideOverlay();
         setTimeout(() => { 
-            removeNode(elements.overlay);
             removeNode(form);
         }, 150);
     }

@@ -1,13 +1,14 @@
-import { elements, toggleMenuPanel, projectCardModule, hideElement,
+import { elements, toggleMenuPanel, isMenuOpen, projectCardModule, hideElement,
         updateProjectList, showOverlay, expandTaskCard, changeToCollapse, changeToExpand,
         collapseTaskCard, loadTaskView } from './domManipulation.js'
 import { createProjectForm, createTaskForm, changeSaveButtonState, handleCancel, handleSubmit } from './formController.js';
 import PubSub from 'pubsub-js'
-import { removeProject, getProjectTasks, getProjectAtIndex } from './storage.js'
+import { removeProject, getProjectTasks, removeTask } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
 
+    // PROJECT MENU EVENTS
     //When project cards are created, assign event listenerss
     PubSub.subscribe("View projects", function() {
         const projectCards = projectCardModule.getProjectCards();
@@ -29,10 +30,12 @@ const eventHandler = (() => {
                         }
                     }
                 } else {
+                    // Load project tasks if the card is clicked
                     const currentProjectTasks = getProjectTasks(i);
                     loadTaskView(currentProjectTasks);
                     projectCards.forEach((project) => {project.classList.remove('selected-project')});
                     projectCards[i].classList.add('selected-project');
+                    // store info about current project in case changes are made and the page is updated
                     PubSub.publish('Active project', {
                         projectIndex: i,
                     });
@@ -41,8 +44,15 @@ const eventHandler = (() => {
         }
     });
 
-    // Form events
+    // Update projects (if open) and task view when changes are made to existing data
+    PubSub.subscribe('Update storage', function() {
+        if (isMenuOpen()) {
+            updateProjectList();
+        }
+        loadTaskView(getProjectTasks(currentProject));
+    });
 
+    // FORM EVENTS
     elements.newProjectBtn.addEventListener('click', () => {
         hideElement(elements.newProjectBtn);
         createProjectForm(elements.menuPanel, 'project-form');
@@ -71,12 +81,15 @@ const eventHandler = (() => {
         });
     });
 
-    PubSub.subscribe('Update storage', function() {
-        updateProjectList()
-        loadTaskView(getProjectTasks(elements.currentProject));
+    // TASK VIEW EVENTS
+    elements.newTaskBtn.addEventListener('click', () => {
+        showOverlay();
+        setTimeout(() => {
+            createTaskForm(elements.container, 'new-task');
+        }, 150);
     });
 
-    // TASK VIEW EVENTS
+    // Assign events to controls of newly created task card
     PubSub.subscribe('Load task card', function(tag, data) {
         let taskExpanded = false;
         data.expandBtn.addEventListener('click', function() {
@@ -90,15 +103,10 @@ const eventHandler = (() => {
                 expandTaskCard(data.task, data.card);
             }
         });
+        data.checkbox.addEventListener('click', function() {
+            removeTask(data.task.project, data.task);
+        });
     });
-
-    elements.newTaskBtn.addEventListener('click', () => {
-        showOverlay();
-        setTimeout(() => {
-            createTaskForm(elements.container, 'new-task');
-        }, 150);
-    });
-    
 })();
 
 function getEventTarget(e) {
@@ -109,5 +117,11 @@ function getEventTarget(e) {
 function getTargetClass(eventTarget) {
     return eventTarget.getAttribute('class');
 }
+
+export let currentProject = 0;
+
+PubSub.subscribe('Active project', function(tag, data) {
+    currentProject = data.projectIndex;
+});
 
 export default eventHandler
