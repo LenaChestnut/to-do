@@ -112,7 +112,7 @@ const eventHandler = (() => {
         data.editButton.addEventListener('click', function() {
             showOverlay();
             setTimeout(() => {
-                createTaskForm(elements.container, 'edit-task');
+                createTaskForm(elements.container, 'edit-task', data.task);
             }, 150);
         });
     });

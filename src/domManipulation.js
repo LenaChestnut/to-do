@@ -150,7 +150,7 @@ export function expandTaskCard(task, card) {
 
     PubSub.publish('Task expanded', {
         editButton: editTask,
-        task: task,
+        task: task
     });
 }
 
@@ -206,8 +206,10 @@ export const projectCardModule = (() => {
         removeIcon.setAttribute('alt', 'remove');
         removeButton.appendChild(removeIcon);
 
-        projectCard.appendChild(editButton);
-        projectCard.appendChild(removeButton);
+        if (project !== 'All tasks') {
+            projectCard.appendChild(editButton);
+            projectCard.appendChild(removeButton);
+        }
 
         elements.projectList.appendChild(projectCard);
     }

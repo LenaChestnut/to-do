@@ -2,7 +2,7 @@ import { addProject, editProject, getProjectAtIndex, getProjects, addTask } from
 import { elements, hideOverlay, removeNode, showElement } from './domManipulation.js'
 import ProjectFactory from './projectController.js'
 import TaskFactory from './taskController.js'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { currentProject } from './eventHandlers.js'
 
 // BASIC FORM ELEMENTS
@@ -97,22 +97,9 @@ export function createProjectForm(container, name, index = null) {
     });
 };
 
-export function createTaskForm(container, name, index = null) {
+export function createTaskForm(container, name, task = null) {
     const form = createFormContainer(name);
     form.classList.add('task-form');
-
-    if (name === 'edit-task') {
-        form.setAttribute('id', index);
-        const formTitle = document.createElement('h2');
-        formTitle.textContent = "Edit task";
-        form.appendChild(formTitle);
-        // let project = getProjectAtIndex(index);
-        // projectNameField.value = project.name;
-    } else if (name === 'new-task') {
-        const formTitle = document.createElement('h2');
-        formTitle.textContent = "New task";
-        form.appendChild(formTitle);
-    }
 
     const taskTitleField = createInput('text', 'task-title');
     taskTitleField.setAttribute('placeholder', 'Task title');
@@ -137,6 +124,22 @@ export function createTaskForm(container, name, index = null) {
 
     const saveBtn = createButton('submit', '../dist/assets/plus.svg', 'save', 'save');
     const cancelBtn = createButton('reset', '../dist/assets/x.svg', 'cancel', 'cancel');
+
+    if (name === 'edit-task') {
+        // form.setAttribute('id', index);
+        const formTitle = document.createElement('h2');
+        formTitle.textContent = "Edit task";
+        form.appendChild(formTitle);
+        taskTitleField.value = `${task.title}`;
+        taskDescription.value = `${task.description}`;
+        projectSelect.value = task.project;
+        prioritySelect.value = task.priority;
+        // dueDate.value = format(parseISO(task.dueDate), 'yyyy/MM/dd');;
+    } else if (name === 'new-task') {
+        const formTitle = document.createElement('h2');
+        formTitle.textContent = "New task";
+        form.appendChild(formTitle);
+    }
 
     form.appendChild(taskTitleField);
     form.appendChild(taskDescription);
@@ -221,6 +224,14 @@ export function handleSubmit(form) {
             removeNode(form);
         }, 150);
     } else if (formName === 'new-task') {
+        const input = getFormInput(formName);
+        const task = TaskFactory(input.title, input.description, input.project, input.priority, input.date);
+        addTask(task, input.project);
+        hideOverlay();
+        setTimeout(() => { 
+            removeNode(form);
+        }, 150);
+    } else if (formName === 'edit-task') {
         const input = getFormInput(formName);
         const task = TaskFactory(input.title, input.description, input.project, input.priority, input.date);
         addTask(task, input.project);

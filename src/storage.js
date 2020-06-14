@@ -1,18 +1,12 @@
 import ProjectFactory from './projectController.js'
+import { loadTaskView } from './domManipulation.js'
 
-const tutorial = ProjectFactory('Tutorial');
-
-// (function loadTutorial() {
-//     let existingTutorial = getProjectByName('Tutorial');
-//     if (!existingTutorial.length) {
-//         const tutorial = ProjectFactory('Tutorial');
-//         const task1 = TaskFactory('Create new task', 'Create new task in selected project', 'Tutorial', 2, Date.now());
-//         const task2 = TaskFactory('Complete task', 'Press checkmark to complete the task', 'Tutorial', 3, Date.now());
-//         task1.subTasks = ['Do first thing', 'Do second thing'];
-//         tutorial.tasks = [task1, task2];
-//         addProject(tutorial);
-//     }
-// })();
+(function loadTutorial() {
+    if (!localStorage.length) {
+        const general = ProjectFactory('All tasks');
+        addProject(general);
+    }
+})();
 
 function updateStorage(projectsArr) {
     localStorage.setItem('projects', JSON.stringify(projectsArr));
@@ -22,7 +16,10 @@ function updateStorage(projectsArr) {
 // PROJECTS
 
 export function getProjects() {
-    const projects = JSON.parse(localStorage.getItem('projects'));
+    let projects = JSON.parse(localStorage.getItem('projects'));
+    if (!projects) {
+        projects = [];
+    }
     return projects;
 }
 
