@@ -5,7 +5,8 @@ const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) 
     const description = taskDescr;
     const project = taskProject;
     const priority = Number(taskPriority);
-    const dueDate = format(parseISO(taskDate), 'MM/dd/yyyy');
+    // const dueDate = format(parseISO(taskDate), 'MM/dd/yyyy');
+    const dueDate = taskDate;
 
     return {
         title,
