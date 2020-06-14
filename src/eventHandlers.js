@@ -107,6 +107,15 @@ const eventHandler = (() => {
             removeTask(data.task.project, data.task);
         });
     });
+
+    PubSub.subscribe('Task expanded', function(tag, data) {
+        data.editButton.addEventListener('click', function() {
+            showOverlay();
+            setTimeout(() => {
+                createTaskForm(elements.container, 'edit-task');
+            }, 150);
+        });
+    });
 })();
 
 function getEventTarget(e) {

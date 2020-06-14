@@ -99,6 +99,7 @@ export function createProjectForm(container, name, index = null) {
 
 export function createTaskForm(container, name, index = null) {
     const form = createFormContainer(name);
+    form.classList.add('task-form');
 
     if (name === 'edit-task') {
         form.setAttribute('id', index);

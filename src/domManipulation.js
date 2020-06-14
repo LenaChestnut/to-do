@@ -149,7 +149,8 @@ export function expandTaskCard(task, card) {
     card.appendChild(expandedInfoContainer);
 
     PubSub.publish('Task expanded', {
-        expandedContainer: expandedInfoContainer,
+        editButton: editTask,
+        task: task,
     });
 }
 

@@ -92,6 +92,14 @@ export function addTask(task, project) {
     updateStorage(storedProjects);
 }
 
+export function editTask(task, project) {
+    //get projects
+    //get current project
+    //find index of the task in current project
+    //update info in the task
+    //update storage
+}
+
 export function removeTask(projectName, removedTask) {
     let storedProjects = getProjects();
     let currentProject = storedProjects.find(nextProject => nextProject.name === projectName);
