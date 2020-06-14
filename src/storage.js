@@ -53,6 +53,9 @@ export function editProject(index, newName) {
     let storedProjects = getProjects();
     let editedProject = storedProjects[index];
     editedProject.name = newName;
+    editedProject.tasks.forEach((task) => {
+        task.project = editedProject.name;
+    });
     updateStorage(storedProjects);
 }
 
@@ -86,5 +89,4 @@ export function addTask(task, project) {
     let currentProject = storedProjects.find(nextProject => nextProject.name === project);
     currentProject.tasks.push(task);
     updateStorage(storedProjects);
-    PubSub.publish('New task');
 }

@@ -71,9 +71,10 @@ const eventHandler = (() => {
         });
     });
 
-    PubSub.subscribe('Update storage', updateProjectList);
+    // PubSub.subscribe('Update storage', updateProjectList);
 
-    PubSub.subscribe('New task', function() {
+    PubSub.subscribe('Update storage', function() {
+        updateProjectList()
         loadTaskView(getProjectTasks(elements.currentProject));
     });
 
