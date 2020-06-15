@@ -114,6 +114,7 @@ const eventHandler = (() => {
             setTimeout(() => {
                 createTaskForm(elements.container, 'edit-task', data.task);
             }, 150);
+            console.log(data.task);
         });
     });
 })();

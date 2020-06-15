@@ -115,7 +115,7 @@ function buildTaskCard(task) {
     taskContainer.appendChild(taskInfo);
     taskCard.appendChild(taskContainer);
   
-    const checkId = task.title.replace(/\s/g, '-').toLowerCase();
+    const checkId = task.index;
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', `checkbox`);
     checkbox.setAttribute('id', `${checkId}`);

@@ -126,7 +126,7 @@ export function createTaskForm(container, name, task = null) {
     const cancelBtn = createButton('reset', '../dist/assets/x.svg', 'cancel', 'cancel');
 
     if (name === 'edit-task') {
-        // form.setAttribute('id', index);
+        form.setAttribute('id', `${task.project}-`)
         const formTitle = document.createElement('h2');
         formTitle.textContent = "Edit task";
         form.appendChild(formTitle);
@@ -232,13 +232,15 @@ export function handleSubmit(form) {
             removeNode(form);
         }, 150);
     } else if (formName === 'edit-task') {
-        const input = getFormInput(formName);
-        const task = TaskFactory(input.title, input.description, input.project, input.priority, input.date);
-        addTask(task, input.project);
-        hideOverlay();
-        setTimeout(() => { 
-            removeNode(form);
-        }, 150);
+        // const input = getFormInput(formName);
+        // const task = TaskFactory(input.title, input.description, input.project, input.priority, input.date);
+        // addTask(task, input.project);
+        
+        // hideOverlay();
+        // setTimeout(() => { 
+        //     removeNode(form);
+        // }, 150);
+        // console.log()
     }
 }
 

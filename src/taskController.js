@@ -1,12 +1,10 @@
-import { format, parseISO } from 'date-fns'
-
 const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) => {
     const title = taskTitle;
     const description = taskDescr;
     const project = taskProject;
     const priority = Number(taskPriority);
-    // const dueDate = format(parseISO(taskDate), 'MM/dd/yyyy');
     const dueDate = taskDate;
+    const index = Date.now();
 
     return {
         title,
@@ -14,6 +12,7 @@ const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) 
         project,
         priority,
         dueDate,
+        index,
     }
 }
 
