@@ -178,7 +178,7 @@ export function changeToExpand(button) {
 function appendProjectCards() {
     const projects = getProjects();
     for (let i = 0; i < projects.length; i++) {
-        projectCardModule.buildCard(projects[i].name);
+        projectCardModule.buildCard(projects[i].name, i);
     }
     let projectCards = projectCardModule.getProjectCards();
     projectCards[currentProject].classList.add('selected-project');
@@ -191,7 +191,7 @@ export function updateProjectList() {
 }
 
 export const projectCardModule = (() => {
-    function buildCard(project) {
+    function buildCard(project, index) {
         const projectCard = document.createElement('li');
         projectCard.classList.add('project-card');
 
@@ -213,7 +213,7 @@ export const projectCardModule = (() => {
         removeIcon.setAttribute('alt', 'remove');
         removeButton.appendChild(removeIcon);
 
-        if (project !== 'All tasks') {
+        if (project !== 'All tasks' || index !== 0) {
             projectCard.appendChild(editButton);
             projectCard.appendChild(removeButton);
         }

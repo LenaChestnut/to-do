@@ -1,5 +1,7 @@
 import ProjectFactory from './projectController.js'
-import { loadTaskView } from './domManipulation.js'
+// import { loadTaskView } from './domManipulation.js'
+import TaskFactory from './taskController.js'
+import { getFormInput } from './formController.js'
 
 (function loadTutorial() {
     if (!localStorage.length) {
@@ -35,15 +37,15 @@ export function getProjectAtIndex(index) {
     return currentProject;
 }
 
-// export function getProjectByName(projectName) {
-//     let storedProjects = getProjects();
-//     let currentProject = storedProjects.find((project) => {
-//         if (project.name === projectName) {
-//             return project;
-//         }
-//     });
-//     return currentProject;
-// }
+export function getProjectByName(projectName) {
+    let storedProjects = getProjects();
+    let currentProject = storedProjects.find((project) => {
+        if (project.name === projectName) {
+            return project;
+        }
+    });
+    return currentProject;
+}
 
 export function editProject(index, newName) {
     let storedProjects = getProjects();
@@ -89,12 +91,17 @@ export function addTask(task, project) {
     updateStorage(storedProjects);
 }
 
-export function editTask(task, project) {
-    //get projects
-    //get current project
-    //find index of the task in current project
-    //update info in the task
-    //update storage
+export function editTask(form) {
+    // get path to original task and remove it
+    const projectRegex = /(?<=^P).*(?=I\d+$)/gm;
+    const origProject = form.id.match(projectRegex).join();
+    const indexRegex = /(?<=I)\d+$/gm;
+    const origTaskIndex = Number(form.id.match(indexRegex).join());
+    removeTask(origProject, origTaskIndex);
+    // create new task with the same index
+    const input = getFormInput(form.name);
+    const editedTask = TaskFactory(input.title, input.description, input.project, input.priority, input.date, origTaskIndex);
+    addTask(editedTask, input.project);
 }
 
 export function removeTask(projectName, removedTaskIndex) {

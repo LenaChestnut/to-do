@@ -1,4 +1,4 @@
-import { addProject, editProject, getProjectAtIndex, getProjects, addTask, removeTask } from './storage.js'
+import { addProject, editProject, getProjectAtIndex, getProjects, addTask, editTask, getProjectByName } from './storage.js'
 import { elements, hideOverlay, removeNode, showElement } from './domManipulation.js'
 import ProjectFactory from './projectController.js'
 import TaskFactory from './taskController.js'
@@ -209,6 +209,14 @@ export function getSaveButton(form) {
 
 export function handleSubmit(form) {
     let formName = form.name;
+
+    if (formName === 'project-form' || formName === 'edit-project') {
+        if (getProjectByName(getFormInput(formName))) {
+            alert('Project with this name already exists');
+            return false;
+        }
+    }
+
     if (formName === 'project-form') {
         const projectName = getFormInput(formName);
         const project = ProjectFactory(projectName);
@@ -232,16 +240,7 @@ export function handleSubmit(form) {
             removeNode(form);
         }, 150);
     } else if (formName === 'edit-task') {
-        // get path to original task and remove it
-        const projectRegex = /(?<=^P).*(?=I\d+$)/gm;
-        const origProject = form.id.match(projectRegex).join();
-        const indexRegex = /(?<=I)\d+$/gm;
-        const origTaskIndex = Number(form.id.match(indexRegex).join());
-        removeTask(origProject, origTaskIndex);
-        // create new task with the same index
-        const input = getFormInput(formName);
-        const editedTask = TaskFactory(input.title, input.description, input.project, input.priority, input.date, origTaskIndex);
-        addTask(editedTask, input.project);
+        editTask(form);
         hideOverlay();
         setTimeout(() => { 
             removeNode(form);
