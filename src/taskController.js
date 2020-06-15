@@ -1,10 +1,10 @@
-const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate) => {
+const TaskFactory = (taskTitle, taskDescr, taskProject, taskPriority, taskDate, taskIndex = null) => {
     const title = taskTitle;
     const description = taskDescr;
     const project = taskProject;
     const priority = Number(taskPriority);
     const dueDate = taskDate;
-    const index = Date.now();
+    const index = taskIndex || Date.now();
 
     return {
         title,

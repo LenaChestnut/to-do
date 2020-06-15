@@ -1,8 +1,8 @@
-import { addProject, editProject, getProjectAtIndex, getProjects, addTask } from './storage.js'
+import { addProject, editProject, getProjectAtIndex, getProjects, addTask, removeTask } from './storage.js'
 import { elements, hideOverlay, removeNode, showElement } from './domManipulation.js'
 import ProjectFactory from './projectController.js'
 import TaskFactory from './taskController.js'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 import { currentProject } from './eventHandlers.js'
 
 // BASIC FORM ELEMENTS
@@ -126,7 +126,7 @@ export function createTaskForm(container, name, task = null) {
     const cancelBtn = createButton('reset', '../dist/assets/x.svg', 'cancel', 'cancel');
 
     if (name === 'edit-task') {
-        form.setAttribute('id', `${task.project}-`)
+        form.setAttribute('id', `P${task.project}I${task.index}`)
         const formTitle = document.createElement('h2');
         formTitle.textContent = "Edit task";
         form.appendChild(formTitle);
@@ -175,7 +175,7 @@ export function getFormInput(formName) {
     const form = document.forms[`${formName}`];
     if (formName === 'project-form' || formName === 'edit-project') {
         return form['project-name'].value;
-    } else if (formName === 'new-task') {
+    } else if (formName === 'new-task' || formName === 'edit-task') {
         return {
             title: form['task-title'].value,
             description: form['task-description'].value,
@@ -232,15 +232,20 @@ export function handleSubmit(form) {
             removeNode(form);
         }, 150);
     } else if (formName === 'edit-task') {
-        // const input = getFormInput(formName);
-        // const task = TaskFactory(input.title, input.description, input.project, input.priority, input.date);
-        // addTask(task, input.project);
-        
-        // hideOverlay();
-        // setTimeout(() => { 
-        //     removeNode(form);
-        // }, 150);
-        // console.log()
+        // get path to original task and remove it
+        const projectRegex = /(?<=^P).*(?=I\d+$)/gm;
+        const origProject = form.id.match(projectRegex).join();
+        const indexRegex = /(?<=I)\d+$/gm;
+        const origTaskIndex = Number(form.id.match(indexRegex).join());
+        removeTask(origProject, origTaskIndex);
+        // create new task with the same index
+        const input = getFormInput(formName);
+        const editedTask = TaskFactory(input.title, input.description, input.project, input.priority, input.date, origTaskIndex);
+        addTask(editedTask, input.project);
+        hideOverlay();
+        setTimeout(() => { 
+            removeNode(form);
+        }, 150);
     }
 }
 

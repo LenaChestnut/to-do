@@ -97,10 +97,10 @@ export function editTask(task, project) {
     //update storage
 }
 
-export function removeTask(projectName, removedTask) {
+export function removeTask(projectName, removedTaskIndex) {
     let storedProjects = getProjects();
     let currentProject = storedProjects.find(nextProject => nextProject.name === projectName);
-    let index = currentProject.tasks.findIndex((task) => task.index === removedTask.index);
+    let index = currentProject.tasks.findIndex((task) => task.index === removedTaskIndex);
     currentProject.tasks.splice(index, 1);
     updateStorage(storedProjects);
 }

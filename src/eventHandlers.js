@@ -104,7 +104,7 @@ const eventHandler = (() => {
             }
         });
         data.checkbox.addEventListener('click', function() {
-            removeTask(data.task.project, data.task);
+            removeTask(data.task.project, data.task.index);
         });
     });
 
@@ -114,7 +114,6 @@ const eventHandler = (() => {
             setTimeout(() => {
                 createTaskForm(elements.container, 'edit-task', data.task);
             }, 150);
-            console.log(data.task);
         });
     });
 })();
