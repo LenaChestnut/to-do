@@ -80,6 +80,10 @@ export function getAllTasks() {
 };
 
 export function getProjectTasks(index) {
+    if (index === 0) {
+        let allTasks = getAllTasks();
+        return allTasks;
+    }
     const currentProject = getProjectAtIndex(index);
     return currentProject.tasks;
 }
