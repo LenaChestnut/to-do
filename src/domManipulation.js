@@ -13,6 +13,7 @@ export const elements = {
     taskList: document.createElement('div'),
     newTaskBtn: document.createElement('button'),
     overlay: document.createElement('div'),
+    underlayer: document.querySelector('#underlayer'),
 };
 
 elements.menuPanel.classList.add('menu-panel');
@@ -29,6 +30,7 @@ export function toggleMenuPanel() {
         hideMenuPanel();
     } else {
         loadMenuPanel();
+        showMenuPanel();
     }
 }
 
@@ -47,6 +49,24 @@ function loadMenuPanel() {
     elements.menuPanel.appendChild(elements.newProjectBtn);
 }
 
+function showMenuPanel() {
+    elements.menuPanel.animate([
+        { transform: 'translateX(-305px)' },
+        { transform: 'translateX(0px)' },
+    ], {
+        duration: 300,
+        easing: 'ease-out',
+    });
+    elements.underlayer.animate([
+        { width: '0px' },
+        { width: '305px' },
+    ], {
+        duration: 300,
+        easing: 'ease-out',
+        fill: 'forwards',
+    });
+}
+
 function hideMenuPanel() {
     elements.menuPanel.animate([
         { transform: 'translateX(0px)' },
@@ -54,6 +74,14 @@ function hideMenuPanel() {
     ], {
         duration: 300,
         easing: 'ease-in',
+    });
+    elements.underlayer.animate([
+        { width: '305px' },
+        { width: '0px' },
+    ], {
+        duration: 300,
+        easing: 'ease-in',
+        fill: 'forwards',
     });
     setTimeout(() => {
         removeNode(elements.menuPanel);

@@ -47,3 +47,7 @@ I wanted to make the menu slide out when hidden. However, CSS rule for slide-in 
         removeNode(elements.menuPanel);
     }, 300);
 ```
+
+## CSS
+### Flex-shrink, flex-grow and flex-basis
+[Super clear tutorial](https://medium.com/@tiffnogueira/understanding-flex-shrink-flex-grow-and-flex-basis-and-using-these-properties-to-their-full-e4b4afd2c930).

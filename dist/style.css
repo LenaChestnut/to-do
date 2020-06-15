@@ -15,6 +15,15 @@ html, body {
     font-family: 'Montserrat', sans-serif;
 }
 
+#container {
+    display: flex;
+}
+
+#underlayer {
+    width: 0px;
+    flex-shrink: 0;
+}
+
 nav {
     position: fixed;
     top: 0;
@@ -68,28 +77,12 @@ img {
     -webkit-box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     -moz-box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
     box-shadow: 9px 4px 24px -25px rgba(0,0,0,0.3);
-    animation: slidein 0.3s;
     overflow-y: auto;
     z-index: 4;
 }
 
 .menu-panel ul {
     margin-bottom: 0.8rem;
-}
-
-.slidein {
-    animation: slidein 0.3s;
-}
-
-@keyframes slidein {
-    from {
-        left: -305px;
-    }
-
-    to {
-        left: 0;
-    }
-
 }
 
 li {
