@@ -24,6 +24,13 @@ html, body {
     flex-shrink: 0;
 }
 
+
+@media (max-width: 550px) {
+    #underlayer {
+        display: none;
+    }
+}
+
 nav {
     position: fixed;
     top: 0;
@@ -324,3 +331,4 @@ label:hover, input[type="checkbox"]:checked + label {
 textarea {
     resize: none;
 }
+
