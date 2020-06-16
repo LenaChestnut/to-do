@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "date-fns": "^2.14.0",
+    "feather-icons": "^4.28.0",
     "pubsub-js": "^1.8.0"
   }
 }
