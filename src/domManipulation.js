@@ -92,12 +92,31 @@ function hideMenuPanel() {
 // TASK VIEW
 
 export function loadTaskView(requestedTasks) {
+    const sortedTasks = sortTasks(requestedTasks);
     elements.taskList.innerHTML = '';
-    appendTaskCards(requestedTasks);
+    appendTaskCards(sortedTasks);
     elements.newTaskBtn.innerHTML = '<p><img src="../dist/assets/plus.svg">New task</p>';
     elements.newTaskBtn.style.display = 'block';
     elements.taskList.appendChild(elements.newTaskBtn);
     elements.container.appendChild(elements.taskList);
+}
+
+function sortTasks(tasksArr) {
+    const tasksByPriority = tasksArr.sort((task1, task2) => {
+        if (task1.priority < task2.priority) {
+            return 1;
+        } else {
+            return -1;
+        }
+    });
+    const tasksByDate = tasksByPriority.sort((task1, task2) => {
+        if (task1.dueDate > task2.dueDate) {
+            return 1;
+        } else {
+            return -1;
+        }
+    });
+    return tasksByDate;
 }
 
 function appendTaskCards(requestedTasks) {
