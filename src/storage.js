@@ -1,5 +1,4 @@
 import ProjectFactory from './projectController.js'
-// import { loadTaskView } from './domManipulation.js'
 import TaskFactory from './taskController.js'
 import { getFormInput } from './formController.js'
 
