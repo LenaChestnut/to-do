@@ -7,6 +7,11 @@ import { removeProject, getProjectTasks, removeTask } from './storage.js'
 
 const eventHandler = (() => {
     elements.menuBtn.addEventListener('click', toggleMenuPanel);
+    elements.homeBtn.addEventListener('click', function() {
+        PubSub.publish('Change active project', {
+            projectIndex: 0,
+        });
+    });
 
     // PROJECT MENU EVENTS
     //When project cards are created, assign event listenerss
@@ -30,13 +35,7 @@ const eventHandler = (() => {
                         }
                     }
                 } else {
-                    // Load project tasks if the card is clicked
-                    const currentProjectTasks = getProjectTasks(i);
-                    loadTaskView(currentProjectTasks);
-                    projectCards.forEach((project) => {project.classList.remove('selected-project')});
-                    projectCards[i].classList.add('selected-project');
-                    // store info about current project in case changes are made and the page is updated
-                    PubSub.publish('Active project', {
+                    PubSub.publish('Change active project', {
                         projectIndex: i,
                     });
                 }
@@ -44,7 +43,18 @@ const eventHandler = (() => {
         }
     });
 
-    // Update projects (if open) and task view when changes are made to existing data
+    PubSub.subscribe('Change active project', function(tag, data) {
+        currentProject = data.projectIndex;
+        const projectCards = projectCardModule.getProjectCards();
+        const currentProjectTasks = getProjectTasks(data.projectIndex);
+        loadTaskView(currentProjectTasks);
+        if (isMenuOpen()) {
+            projectCards.forEach((project) => {project.classList.remove('selected-project')});
+            projectCards[data.projectIndex].classList.add('selected-project');
+        }
+    });
+
+    // Update project list (if open) and task view when changes are made to existing data
     PubSub.subscribe('Update storage', function() {
         if (isMenuOpen()) {
             updateProjectList();
@@ -128,9 +138,5 @@ function getTargetClass(eventTarget) {
 }
 
 export let currentProject = 0;
-
-PubSub.subscribe('Active project', function(tag, data) {
-    currentProject = data.projectIndex;
-});
 
 export default eventHandler

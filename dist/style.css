@@ -198,9 +198,9 @@ h2 {
 
 .task-list {
     width: 100%;
-    max-width: 720px;
+    max-width: 900px;
     margin: 45px auto;
-    padding: 1rem;
+    padding: 1rem 2rem;
     font-size: 0.9rem;
 }
 

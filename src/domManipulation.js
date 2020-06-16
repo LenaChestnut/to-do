@@ -7,6 +7,7 @@ import { format, parseISO, isToday, isTomorrow } from 'date-fns'
 export const elements = {
     container: document.getElementById("container"),
     menuBtn: document.querySelector('.menu-btn'),
+    homeBtn: document.querySelector('.home-btn'),
     menuPanel: document.createElement('div'),
     projectList: document.createElement('ul'),
     newProjectBtn: document.createElement('button'),

@@ -3,7 +3,7 @@ import ProjectFactory from './projectController.js'
 import TaskFactory from './taskController.js'
 import { getFormInput } from './formController.js'
 
-(function loadTutorial() {
+(function loadAllTasks() {
     if (!localStorage.length) {
         const general = ProjectFactory('All tasks');
         addProject(general);
@@ -60,7 +60,7 @@ export function editProject(index, newName) {
 export function removeProject(projectIndex) {
     let storedProjects = getProjects();
     storedProjects.splice(projectIndex, 1);
-    PubSub.publish('Active project', {
+    PubSub.publish('Change active project', {
         projectIndex: 0,
     })
     updateStorage(storedProjects);
