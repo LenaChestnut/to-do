@@ -1,10 +1,33 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-    mode: 'development',
-    entry: './src/index.js',
+    mode: "development",
+    entry: "./src/index.js",
     output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: "main.js",
+        path: path.resolve(__dirname, "dist"),
+    },
+    module: {
+        // loaders: [{
+        //     test: /\.js?$/,
+        //     exclude: /node_modules/,
+        //     loader: "babel-loader",
+        //     query: {
+        //         presets: ["env"],
+        //     }
+        // }],
+        rules: [
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"],
+                        plugins: ["@babel/plugin-proposal-object-rest-spread"],
+                    },
+                },
+            },
+        ],
     },
 };

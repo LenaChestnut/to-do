@@ -1,23 +1,24 @@
-import ProjectFactory from './projectController.js'
-import TaskFactory from './taskController.js'
-import { getFormInput } from './formController.js'
+import ProjectFactory from "./projectController.js";
+import TaskFactory from "./taskController.js";
+import PubSub from "pubsub-js";
+import { getFormInput } from "./formController.js";
 
 (function loadAllTasks() {
     if (!localStorage.length) {
-        const general = ProjectFactory('All tasks');
+        const general = ProjectFactory("All tasks");
         addProject(general);
     }
 })();
 
 function updateStorage(projectsArr) {
-    localStorage.setItem('projects', JSON.stringify(projectsArr));
-    PubSub.publish('Update storage');
+    localStorage.setItem("projects", JSON.stringify(projectsArr));
+    PubSub.publish("Update storage");
 }
 
 // PROJECTS
 
 export function getProjects() {
-    let projects = JSON.parse(localStorage.getItem('projects'));
+    let projects = JSON.parse(localStorage.getItem("projects"));
     if (!projects) {
         projects = [];
     }
@@ -59,9 +60,9 @@ export function editProject(index, newName) {
 export function removeProject(projectIndex) {
     let storedProjects = getProjects();
     storedProjects.splice(projectIndex, 1);
-    PubSub.publish('Change active project', {
+    PubSub.publish("Change active project", {
         projectIndex: 0,
-    })
+    });
     updateStorage(storedProjects);
 }
 
@@ -76,7 +77,7 @@ export function getAllTasks() {
         });
     });
     return storedTasks;
-};
+}
 
 export function getProjectTasks(index) {
     if (index === 0) {
@@ -89,7 +90,9 @@ export function getProjectTasks(index) {
 
 export function addTask(task, project) {
     let storedProjects = getProjects();
-    let currentProject = storedProjects.find(nextProject => nextProject.name === project);
+    let currentProject = storedProjects.find(
+        (nextProject) => nextProject.name === project
+    );
     currentProject.tasks.push(task);
     updateStorage(storedProjects);
 }
@@ -103,14 +106,25 @@ export function editTask(form) {
     removeTask(origProject, origTaskIndex);
     // create new task with the same index
     const input = getFormInput(form.name);
-    const editedTask = TaskFactory(input.title, input.description, input.project, input.priority, input.date, origTaskIndex);
+    const editedTask = TaskFactory(
+        input.title,
+        input.description,
+        input.project,
+        input.priority,
+        input.date,
+        origTaskIndex
+    );
     addTask(editedTask, input.project);
 }
 
 export function removeTask(projectName, removedTaskIndex) {
     let storedProjects = getProjects();
-    let currentProject = storedProjects.find(nextProject => nextProject.name === projectName);
-    let index = currentProject.tasks.findIndex((task) => task.index === removedTaskIndex);
+    let currentProject = storedProjects.find(
+        (nextProject) => nextProject.name === projectName
+    );
+    let index = currentProject.tasks.findIndex(
+        (task) => task.index === removedTaskIndex
+    );
     currentProject.tasks.splice(index, 1);
     updateStorage(storedProjects);
 }
