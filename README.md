@@ -1,6 +1,8 @@
 # to-do
 A to-do app project (The Odin Project curriculum)
 
+[Link to live demo](https://lenachestnut.github.io/to-do/dist/index.html)
+
 ## Webpack
 ### Setting up
 I followed [this tutorial](https://webpack.js.org/guides/getting-started/) to set up webpack.
