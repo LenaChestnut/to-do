@@ -3,12 +3,15 @@ A to-do app project (The Odin Project curriculum)
 
 [Link to live demo](https://lenachestnut.github.io/to-do/dist/index.html)
 
+## Browser support
+I wanted to use RegExp look-behinds in some parts of the code so the app only works in Google Chrome at the moment.
+
 ## Webpack
 ### Setting up
 I followed [this tutorial](https://webpack.js.org/guides/getting-started/) to set up webpack.
 
 ### Development mode
-When creating webpack.config.js, I set mode to be development. That way, webpack doesn't minify the output code and it's easier to debug.
+Webpack doesn't minify the output code in dev mode and it's easier to debug.
 
 ### npm run watch
 When you update your files, in order for webpack to update the view, you need to run the following command from the project directory:
@@ -33,8 +36,7 @@ function removeNode(node) {
     node.remove();
 }
 ```
-After discussion on Discord, I've been assured that using innerHTML set to an empty string is fine in this case and not a cause for security concerns.
-
+After discussion on Discord, I've been assured that using innerHTML set to an empty string is fine in this case and won't be a cause for security concerns.
 
 ### Slide-out menu animation
 I wanted to make the menu slide out when hidden. However, CSS rule for slide-in animation didn't allow for using another CSS rule to achieve this effect. Instead, I used `animate()` in JS. The first parameter lists keyframes, the second sets duration of the animation. I used `setTimeout()` so that the menu wouldn't disappear before the animation was completed.
@@ -52,4 +54,4 @@ I wanted to make the menu slide out when hidden. However, CSS rule for slide-in 
 
 ## CSS
 ### Flex-shrink, flex-grow and flex-basis
-[Super clear tutorial](https://medium.com/@tiffnogueira/understanding-flex-shrink-flex-grow-and-flex-basis-and-using-these-properties-to-their-full-e4b4afd2c930).
+Here's a [super clear tutorial](https://medium.com/@tiffnogueira/understanding-flex-shrink-flex-grow-and-flex-basis-and-using-these-properties-to-their-full-e4b4afd2c930) on how to use flex properties.
